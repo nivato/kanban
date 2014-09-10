@@ -13,8 +13,23 @@
 
 table {
 	table-layout: fixed;
-
+	min-height: 500px;
 }
+
 table th, table td {
 	overflow: hidden;
+}
+
+.footer {
+	padding-top: 5px;
+	padding-bottom: 5px;
+	margin-top: 50px;
+	color: #777;
+	text-align: center;
+	border-top: 1px solid #e5e5e5;
+	display: block;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	
 }
