@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="Kanban">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,11 +9,13 @@
 		<link rel="shortcut icon" href="date.ico">
 		<script src="js/jquery-1.11.1.min.js"></script>
 		<script src="js/bootstrap.min.js"></script>
+		<script src="js/angular.min.js"></script>
+		<script src="js/data.js"></script>
 		<script src="js/kanban.js"></script>
 		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="css/kanban.css">
 	</head>
-	<body>
+	<body ng-controller="SprintController as sprint">
 		<nav class="navbar navbar-inverse navbar-static-top" role="navigation">
 			<div class="container-fluid">
 				<div class="navbar-header">
@@ -86,148 +88,46 @@
 				<tr>
 					<td>
 						<div class="list-group">
-							<a class="list-group-item list-group-item-success" href="#">
-								<img class="pull-left avatar" src="img/nazik.jpg" alt="Nazar Ivato">
-								<h4 class="list-group-item-heading">RPJ-1239</h4>
-								<p class="list-group-item-text">
-									Some Very Long Description.
-									Some Very Long Description.
-									Some Very Long Description.
-									Some Very Long Description.
-								</p>
-							</a>
-							
-							<a class="list-group-item list-group-item-info" href="#">
-								<img class="pull-left avatar" src="img/nazik.jpg" alt="Nazar Ivato">
-								<h4 class="list-group-item-heading">RPJ-1239</h4>
-								<p class="list-group-item-text">
-									Some Very Long Description.
-									Some Very Long Description.
-									Some Very Long Description.
-									Some Very Long Description.
-								</p>
-							</a>
-							
-							<a class="list-group-item list-group-item-danger" href="#">
-								<img class="pull-left avatar" src="img/nazik.jpg" alt="Nazar Ivato">
-								<h4 class="list-group-item-heading">RPJ-1239</h4>
-								<p class="list-group-item-text">
-									Some Very Long Description.
-									Some Very Long Description.
-									Some Very Long Description.
-									Some Very Long Description.
-								</p>
-							</a>
-							
-							<a class="list-group-item list-group-item-warning" href="#">
-								<img class="pull-left avatar" src="img/nazik.jpg" alt="Nazar Ivato">
-								<h4 class="list-group-item-heading">RPJ-1239</h4>
-								<p class="list-group-item-text">
-									Some Very Long Description.
-									Some Very Long Description.
-									Some Very Long Description.
-									Some Very Long Description.
-								</p>
+							<a class="list-group-item" href="#" ng-repeat="ticket in sprint.tickets" ng-show="ticket.status === 'todo'" ng-class="ticket.css_class">
+								<img class="pull-left avatar" ng-src="img/{{ticket.assignee.picture}}" alt="{{ticket.assignee.first_name + ' ' + ticket.assignee.last_name}}">
+								<h4 class="list-group-item-heading">{{ticket.id}}</h4>
+								<p class="list-group-item-text">{{ticket.summary}}</p>
 							</a>
 						</div>
 					</td>
 					<td>
 						<div class="list-group">
-							<a class="list-group-item" href="#">
-								<img class="pull-left avatar" src="img/nazik.jpg" alt="Nazar Ivato">
-								<h4 class="list-group-item-heading">RPJ-1239</h4>
-								<p class="list-group-item-text">
-									Some Very Long Description.
-									Some Very Long Description.
-									Some Very Long Description.
-									Some Very Long Description.
-								</p>
-							</a>
-							
-							<a class="list-group-item" href="#">
-								<img class="pull-left avatar" src="img/nazik.jpg" alt="Nazar Ivato">
-								<h4 class="list-group-item-heading">RPJ-1239</h4>
-								<p class="list-group-item-text">
-									Some Very Long Description.
-									Some Very Long Description.
-									Some Very Long Description.
-									Some Very Long Description.
-								</p>
+							<a class="list-group-item" href="#" ng-repeat="ticket in sprint.tickets" ng-show="ticket.status === 'inprogress'" ng-class="ticket.css_class">
+								<img class="pull-left avatar" ng-src="img/{{ticket.assignee.picture}}" alt="{{ticket.assignee.first_name + ' ' + ticket.assignee.last_name}}">
+								<h4 class="list-group-item-heading">{{ticket.id}}</h4>
+								<p class="list-group-item-text">{{ticket.summary}}</p>
 							</a>
 						</div>
 					</td>
 					<td>
 						<div class="list-group">
-							<a class="list-group-item" href="#">
-								<img class="pull-left avatar" src="img/nazik.jpg" alt="Nazar Ivato">
-								<h4 class="list-group-item-heading">RPJ-1239</h4>
-								<p class="list-group-item-text">
-									Some Very Long Description.
-									Some Very Long Description.
-									Some Very Long Description.
-									Some Very Long Description.
-								</p>
+							<a class="list-group-item" href="#" ng-repeat="ticket in sprint.tickets" ng-show="ticket.status === 'review'" ng-class="ticket.css_class">
+								<img class="pull-left avatar" ng-src="img/{{ticket.assignee.picture}}" alt="{{ticket.assignee.first_name + ' ' + ticket.assignee.last_name}}">
+								<h4 class="list-group-item-heading">{{ticket.id}}</h4>
+								<p class="list-group-item-text">{{ticket.summary}}</p>
 							</a>
 						</div>
 					</td>
 					<td>
 						<div class="list-group">
-							<a class="list-group-item" href="#">
-								<img class="pull-left avatar" src="img/nazik.jpg" alt="Nazar Ivato">
-								<h4 class="list-group-item-heading">RPJ-1239</h4>
-								<p class="list-group-item-text">
-									Some Very Long Description.
-									Some Very Long Description.
-									Some Very Long Description.
-									Some Very Long Description.
-								</p>
-							</a>
-							
-							<a class="list-group-item" href="#">
-								<img class="pull-left avatar" src="img/nazik.jpg" alt="Nazar Ivato">
-								<h4 class="list-group-item-heading">RPJ-1239</h4>
-								<p class="list-group-item-text">
-									Some Very Long Description.
-									Some Very Long Description.
-									Some Very Long Description.
-									Some Very Long Description.
-								</p>
+							<a class="list-group-item" href="#" ng-repeat="ticket in sprint.tickets" ng-show="ticket.status === 'testing'" ng-class="ticket.css_class">
+								<img class="pull-left avatar" ng-src="img/{{ticket.assignee.picture}}" alt="{{ticket.assignee.first_name + ' ' + ticket.assignee.last_name}}">
+								<h4 class="list-group-item-heading">{{ticket.id}}</h4>
+								<p class="list-group-item-text">{{ticket.summary}}</p>
 							</a>
 						</div>
 					</td>
 					<td>
 						<div class="list-group">
-							<a class="list-group-item" href="#">
-								<img class="pull-left avatar" src="img/nazik.jpg" alt="Nazar Ivato">
-								<h4 class="list-group-item-heading">RPJ-1239</h4>
-								<p class="list-group-item-text">
-									Some Very Long Description.
-									Some Very Long Description.
-									Some Very Long Description.
-									Some Very Long Description.
-								</p>
-							</a>
-							
-							<a class="list-group-item" href="#">
-								<img class="pull-left avatar" src="img/nazik.jpg" alt="Nazar Ivato">
-								<h4 class="list-group-item-heading">RPJ-1239</h4>
-								<p class="list-group-item-text">
-									Some Very Long Description.
-									Some Very Long Description.
-									Some Very Long Description.
-									Some Very Long Description.
-								</p>
-							</a>
-							
-							<a class="list-group-item" href="#">
-								<img class="pull-left avatar" src="img/nazik.jpg" alt="Nazar Ivato">
-								<h4 class="list-group-item-heading">RPJ-1239</h4>
-								<p class="list-group-item-text">
-									Some Very Long Description.
-									Some Very Long Description.
-									Some Very Long Description.
-									Some Very Long Description.
-								</p>
+							<a class="list-group-item" href="#" ng-repeat="ticket in sprint.tickets" ng-show="ticket.status === 'done'" ng-class="ticket.css_class">
+								<img class="pull-left avatar" ng-src="img/{{ticket.assignee.picture}}" alt="{{ticket.assignee.first_name + ' ' + ticket.assignee.last_name}}">
+								<h4 class="list-group-item-heading">{{ticket.id}}</h4>
+								<p class="list-group-item-text">{{ticket.summary}}</p>
 							</a>
 						</div>
 					</td>
