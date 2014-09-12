@@ -60,7 +60,7 @@
 					<ul class="nav navbar-nav navbar-right">
 							<li class="dropdown">
 								<a href="#" class="dropdown-toggle avatar" data-toggle="dropdown">
-									<img class="brand avatar" src="img/nazik.jpg" alt="Nazar Ivato"/> nivato <span class="caret"> </span>
+									<img class="brand avatar" src="img/ava/nazik.jpg" alt="Nazar Ivato"/> nivato <span class="caret"> </span>
 								</a>
 								<ul class="dropdown-menu" role="menu">
 								<li><a href="#">Profile</a></li>
@@ -89,7 +89,8 @@
 					<td>
 						<div class="list-group">
 							<a class="list-group-item board-ticket" href="#" ng-repeat="ticket in sprint.tickets" ng-show="ticket.status === 'todo'" ng-class="ticket.css_class">
-								<img class="pull-left avatar" ng-src="img/{{ticket.assignee.picture}}" alt="{{ticket.assignee.first_name + ' ' + ticket.assignee.last_name}}">
+								<img class="pull-left avatar" ng-src="img/ava/{{ticket.assignee.picture}}" alt="{{ticket.assignee.first_name + ' ' + ticket.assignee.last_name}}">
+								<img class="pull-left ticket-type" ng-src="img/{{ticket.type}}.png" alt="{{ticket.type}}" />
 								<h4 class="list-group-item-heading">{{ticket.id}}</h4>
 								<p class="list-group-item-text">{{ticket.summary | limitStrTo:60}}</p>
 							</a>
@@ -98,7 +99,8 @@
 					<td>
 						<div class="list-group">
 							<a class="list-group-item board-ticket" href="#" ng-repeat="ticket in sprint.tickets" ng-show="ticket.status === 'inprogress'" ng-class="ticket.css_class">
-								<img class="pull-left avatar" ng-src="img/{{ticket.assignee.picture}}" alt="{{ticket.assignee.first_name + ' ' + ticket.assignee.last_name}}">
+								<img class="pull-left avatar" ng-src="img/ava/{{ticket.assignee.picture}}" alt="{{ticket.assignee.first_name + ' ' + ticket.assignee.last_name}}">
+								<img class="pull-left ticket-type" ng-src="img/{{ticket.type}}.png" alt="{{ticket.type}}" />
 								<h4 class="list-group-item-heading">{{ticket.id}}</h4>
 								<p class="list-group-item-text">{{ticket.summary | limitStrTo:60}}</p>
 							</a>
@@ -107,7 +109,8 @@
 					<td>
 						<div class="list-group">
 							<a class="list-group-item board-ticket" href="#" ng-repeat="ticket in sprint.tickets" ng-show="ticket.status === 'review'" ng-class="ticket.css_class">
-								<img class="pull-left avatar" ng-src="img/{{ticket.assignee.picture}}" alt="{{ticket.assignee.first_name + ' ' + ticket.assignee.last_name}}">
+								<img class="pull-left avatar" ng-src="img/ava/{{ticket.assignee.picture}}" alt="{{ticket.assignee.first_name + ' ' + ticket.assignee.last_name}}">
+								<img class="pull-left ticket-type" ng-src="img/{{ticket.type}}.png" alt="{{ticket.type}}" />
 								<h4 class="list-group-item-heading">{{ticket.id}}</h4>
 								<p class="list-group-item-text">{{ticket.summary | limitStrTo:60}}</p>
 							</a>
@@ -116,7 +119,8 @@
 					<td>
 						<div class="list-group">
 							<a class="list-group-item board-ticket" href="#" ng-repeat="ticket in sprint.tickets" ng-show="ticket.status === 'testing'" ng-class="ticket.css_class">
-								<img class="pull-left avatar" ng-src="img/{{ticket.assignee.picture}}" alt="{{ticket.assignee.first_name + ' ' + ticket.assignee.last_name}}">
+								<img class="pull-left avatar" ng-src="img/ava/{{ticket.assignee.picture}}" alt="{{ticket.assignee.first_name + ' ' + ticket.assignee.last_name}}">
+								<img class="pull-left ticket-type" ng-src="img/{{ticket.type}}.png" alt="{{ticket.type}}" />
 								<h4 class="list-group-item-heading">{{ticket.id}}</h4>
 								<p class="list-group-item-text">{{ticket.summary | limitStrTo:60}}</p>
 							</a>
@@ -125,7 +129,8 @@
 					<td>
 						<div class="list-group">
 							<a class="list-group-item board-ticket" href="#" ng-repeat="ticket in sprint.tickets" ng-show="ticket.status === 'done'" ng-class="ticket.css_class">
-								<img class="pull-left avatar" ng-src="img/{{ticket.assignee.picture}}" alt="{{ticket.assignee.first_name + ' ' + ticket.assignee.last_name}}">
+								<img class="pull-left avatar" ng-src="img/ava/{{ticket.assignee.picture}}" alt="{{ticket.assignee.first_name + ' ' + ticket.assignee.last_name}}">
+								<img class="pull-left ticket-type" ng-src="img/{{ticket.type}}.png" alt="{{ticket.type}}" />
 								<h4 class="list-group-item-heading">{{ticket.id}}</h4>
 								<p class="list-group-item-text">{{ticket.summary | limitStrTo:60}}</p>
 							</a>
