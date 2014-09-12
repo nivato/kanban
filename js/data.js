@@ -53,7 +53,7 @@ data.tickets = [
         id: 'RPG-0010',
         summary: 'Get familiar with Bootstrap css framework and different styles',
         type: 'task',
-        status: 'bug',
+        status: 'done',
         assignee_id: 'jsimpson'},
     {
         id: 'RPG-0006',
