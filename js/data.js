@@ -7,15 +7,35 @@ data.tickets = [
         status: 'todo',
         assignee_id: 'nivato'},
     {
+        id: 'RPG-0005',
+        summary: 'Investigate some testing approaches for new project. Consider BDD, Cucumber vs. Selenium',
+        status: 'todo',
+        assignee_id: 'bholywell'},
+    {
+        id: 'RPG-0004',
+        summary: 'Create base CSS files for Homepage.',
+        status: 'todo',
+        assignee_id: 'sgripson'},
+    {
         id: 'RPG-0018',
         summary: 'Investigate how to create some super-great web application',
         status: 'inprogress',
         assignee_id: 'apeterson'},
     {
+        id: 'RPG-0007',
+        summary: 'Create MySQL Database base schemes. Fill-in tables with raw data.',
+        status: 'inprogress',
+        assignee_id: 'joliver'},
+    {
         id: 'RPG-0003',
         summary: 'Prepare design colors. Branding.',
         status: 'review',
         assignee_id: 'sgripson'},
+    {
+        id: 'RPG-0002',
+        summary: 'Implement User Login/Logout backend workflow',
+        status: 'review',
+        assignee_id: 'dnicolson'},
     {
         id: 'RPG-0012',
         summary: 'Investigate and learn super great Angular.js framework',
@@ -26,6 +46,11 @@ data.tickets = [
         summary: 'Get familiar with Bootstrap css framework and different styles',
         status: 'done',
         assignee_id: 'jsimpson'},
+    {
+        id: 'RPG-0006',
+        summary: 'Organize teambuilding party',
+        status: 'done',
+        assignee_id: 'nivato'},
 ];
 
 data.people = [
@@ -64,4 +89,25 @@ data.people = [
         email: 'jessicasimpson@gmail.com',
         picture: 'jessica.png',
         color: 'white'},
+    {
+        username: 'bholywell',
+        first_name: 'Bernadette',
+        last_name: 'Holywell',
+        email: 'bernadetteholywell@gmail.com',
+        picture: 'bernadette.png',
+        color: 'green'},
+    {
+        username: 'joliver',
+        first_name: 'Jamie',
+        last_name: 'Oliver',
+        email: 'jamieoliver@gmail.com',
+        picture: 'jamie.png',
+        color: 'red'},
+    {
+        username: 'dnicolson',
+        first_name: 'Dale',
+        last_name: 'Nicolson',
+        email: 'dalenicolson@gmail.com',
+        picture: 'dale.png',
+        color: 'yellow'},
 ];

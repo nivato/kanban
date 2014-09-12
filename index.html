@@ -6,7 +6,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>Kanban</title>
 		<meta name="author" content="Nazar Ivato" />
-		<link rel="shortcut icon" href="date.ico">
+		<link rel="shortcut icon" href="tiles.ico">
 		<script src="js/jquery-1.11.1.min.js"></script>
 		<script src="js/bootstrap.min.js"></script>
 		<script src="js/angular.min.js"></script>
@@ -77,57 +77,57 @@
 		<table class="table">
 			<thead>
 				<tr>
-					<th>Todo <span class="badge">4</span></th>
-					<th>In Progress <span class="badge">2</span></th>
-					<th>Review <span class="badge">1</span></th>
-					<th>Testing <span class="badge">2</span></th>
-					<th>Done <span class="badge">3</span></th>
+					<th>Todo <span class="badge">{{sprint.numberOfTicketsWithStatus('todo')}}</span></th>
+					<th>In Progress <span class="badge">{{sprint.numberOfTicketsWithStatus('inprogress')}}</span></th>
+					<th>Review <span class="badge">{{sprint.numberOfTicketsWithStatus('review')}}</span></th>
+					<th>Testing <span class="badge">{{sprint.numberOfTicketsWithStatus('testing')}}</span></th>
+					<th>Done <span class="badge">{{sprint.numberOfTicketsWithStatus('done')}}</span></th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr>
 					<td>
 						<div class="list-group">
-							<a class="list-group-item" href="#" ng-repeat="ticket in sprint.tickets" ng-show="ticket.status === 'todo'" ng-class="ticket.css_class">
+							<a class="list-group-item board-ticket" href="#" ng-repeat="ticket in sprint.tickets" ng-show="ticket.status === 'todo'" ng-class="ticket.css_class">
 								<img class="pull-left avatar" ng-src="img/{{ticket.assignee.picture}}" alt="{{ticket.assignee.first_name + ' ' + ticket.assignee.last_name}}">
 								<h4 class="list-group-item-heading">{{ticket.id}}</h4>
-								<p class="list-group-item-text">{{ticket.summary}}</p>
+								<p class="list-group-item-text">{{ticket.summary | limitStrTo:60}}</p>
 							</a>
 						</div>
 					</td>
 					<td>
 						<div class="list-group">
-							<a class="list-group-item" href="#" ng-repeat="ticket in sprint.tickets" ng-show="ticket.status === 'inprogress'" ng-class="ticket.css_class">
+							<a class="list-group-item board-ticket" href="#" ng-repeat="ticket in sprint.tickets" ng-show="ticket.status === 'inprogress'" ng-class="ticket.css_class">
 								<img class="pull-left avatar" ng-src="img/{{ticket.assignee.picture}}" alt="{{ticket.assignee.first_name + ' ' + ticket.assignee.last_name}}">
 								<h4 class="list-group-item-heading">{{ticket.id}}</h4>
-								<p class="list-group-item-text">{{ticket.summary}}</p>
+								<p class="list-group-item-text">{{ticket.summary | limitStrTo:60}}</p>
 							</a>
 						</div>
 					</td>
 					<td>
 						<div class="list-group">
-							<a class="list-group-item" href="#" ng-repeat="ticket in sprint.tickets" ng-show="ticket.status === 'review'" ng-class="ticket.css_class">
+							<a class="list-group-item board-ticket" href="#" ng-repeat="ticket in sprint.tickets" ng-show="ticket.status === 'review'" ng-class="ticket.css_class">
 								<img class="pull-left avatar" ng-src="img/{{ticket.assignee.picture}}" alt="{{ticket.assignee.first_name + ' ' + ticket.assignee.last_name}}">
 								<h4 class="list-group-item-heading">{{ticket.id}}</h4>
-								<p class="list-group-item-text">{{ticket.summary}}</p>
+								<p class="list-group-item-text">{{ticket.summary | limitStrTo:60}}</p>
 							</a>
 						</div>
 					</td>
 					<td>
 						<div class="list-group">
-							<a class="list-group-item" href="#" ng-repeat="ticket in sprint.tickets" ng-show="ticket.status === 'testing'" ng-class="ticket.css_class">
+							<a class="list-group-item board-ticket" href="#" ng-repeat="ticket in sprint.tickets" ng-show="ticket.status === 'testing'" ng-class="ticket.css_class">
 								<img class="pull-left avatar" ng-src="img/{{ticket.assignee.picture}}" alt="{{ticket.assignee.first_name + ' ' + ticket.assignee.last_name}}">
 								<h4 class="list-group-item-heading">{{ticket.id}}</h4>
-								<p class="list-group-item-text">{{ticket.summary}}</p>
+								<p class="list-group-item-text">{{ticket.summary | limitStrTo:60}}</p>
 							</a>
 						</div>
 					</td>
 					<td>
 						<div class="list-group">
-							<a class="list-group-item" href="#" ng-repeat="ticket in sprint.tickets" ng-show="ticket.status === 'done'" ng-class="ticket.css_class">
+							<a class="list-group-item board-ticket" href="#" ng-repeat="ticket in sprint.tickets" ng-show="ticket.status === 'done'" ng-class="ticket.css_class">
 								<img class="pull-left avatar" ng-src="img/{{ticket.assignee.picture}}" alt="{{ticket.assignee.first_name + ' ' + ticket.assignee.last_name}}">
 								<h4 class="list-group-item-heading">{{ticket.id}}</h4>
-								<p class="list-group-item-text">{{ticket.summary}}</p>
+								<p class="list-group-item-text">{{ticket.summary | limitStrTo:60}}</p>
 							</a>
 						</div>
 					</td>

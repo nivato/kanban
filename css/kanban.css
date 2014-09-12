@@ -11,6 +11,10 @@
 	margin-right: 10px;
 }
 
+.board-ticket {
+	min-height: 90px;
+}
+
 table {
 	table-layout: fixed;
 	min-height: 500px;
