@@ -7,15 +7,15 @@
 		<title>Kanban</title>
 		<meta name="author" content="Nazar Ivato" />
 		<link rel="shortcut icon" href="tiles.ico">
-		<script src="js/jquery-1.11.1.min.js"></script>
-		<script src="js/bootstrap.min.js"></script>
-		<script src="js/angular.min.js"></script>
-		<script src="js/data.js"></script>
+		<script src="js/lib/jquery-1.11.1.min.js"></script>
+		<script src="js/lib/bootstrap.min.js"></script>
+		<script src="js/lib/angular.min.js"></script>
+		<script src="js/modules/sprint.js"></script>
 		<script src="js/kanban.js"></script>
 		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="css/kanban.css">
 	</head>
-	<body ng-controller="SprintController as sprint">
+	<body>
 		<nav class="navbar navbar-inverse navbar-static-top" role="navigation">
 			<div class="container-fluid">
 				<div class="navbar-header">
@@ -74,7 +74,7 @@
 			</div>
 		</nav>
 		<h3>Sprint <a href="#">#11</a></h3>
-		<table class="table">
+		<table class="table" ng-controller="SprintController as sprint">
 			<thead>
 				<tr>
 					<th>Todo <span class="badge">{{sprint.numberOfTicketsWithStatus('todo')}}</span></th>

@@ -1,4 +1,4 @@
 kanban
 ======
 
-Application created to try out Bootstrap.js
+Application created to try out Bootstrap.js and Angular.js

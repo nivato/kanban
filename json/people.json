@@ -1,0 +1,57 @@
+[{
+    "username": "nivato",
+    "first_name": "Nazar",
+    "last_name": "Ivato",
+    "email": "nazarivato@gmail.com",
+    "picture": "nazik.jpg",
+    "color": "red"},
+{
+    "username": "apeterson",
+    "first_name": "Alex",
+    "last_name": "Peterson",
+    "email": "alexpeterson@gmail.com",
+    "picture": "alex.png",
+    "color": "green"},
+{
+    "username": "sgripson",
+    "first_name": "Sonia",
+    "last_name": "Gripson",
+    "email": "soniagripson@gmail.com",
+    "picture": "sonia.png",
+    "color": "blue"},
+{
+    "username": "kdoherty",
+    "first_name": "Kris",
+    "last_name": "Doherty",
+    "email": "krisdoherty@gmail.com",
+    "picture": "kris.png",
+    "color": "yellow"},
+{
+    "username": "jsimpson",
+    "first_name": "Jessica",
+    "last_name": "Simpson",
+    "email": "jessicasimpson@gmail.com",
+    "picture": "jessica.png",
+    "color": "white"},
+{
+    "username": "bholywell",
+    "first_name": "Bernadette",
+    "last_name": "Holywell",
+    "email": "bernadetteholywell@gmail.com",
+    "picture": "bernadette.png",
+    "color": "green"},
+{
+    "username": "joliver",
+    "first_name": "Jamie",
+    "last_name": "Oliver",
+    "email": "jamieoliver@gmail.com",
+    "picture": "jamie.png",
+    "color": "red"},
+{
+    "username": "dnicolson",
+    "first_name": "Dale",
+    "last_name": "Nicolson",
+    "email": "dalenicolson@gmail.com",
+    "picture": "dale.png",
+    "color": "yellow"}
+]
