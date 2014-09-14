@@ -51,7 +51,6 @@ function enrichTickets(){
     app.directive('boardTicket', function(){
     	return {
     		restrict: 'E',
-    		scope: app.scope,
     		templateUrl: 'templates/board-ticket.html',
     	};
     });
