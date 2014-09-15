@@ -17,7 +17,40 @@
 		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="css/kanban.css">
 	</head>
-	<body>
+	<body ng-controller="ApplicationController as app">
+		
+		<div class="modal fade" id="loginForm" tabindex="-1" role="dialog" aria-labelledby="loginLabel" aria-hidden="true">
+			<div class="modal-dialog modal-sm">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+						<h4 class="modal-title" id="loginLabel">Login to the System</h4>
+					</div>
+					<form role="form">
+						<div class="modal-body">
+							<div class="form-group">
+								<label for="username">Username or Email</label>
+								<input type="text" class="form-control" id="username" placeholder="Enter email">
+							</div>
+							<div class="form-group">
+								<label for="password">Password</label>
+								<input type="password" class="form-control" id="password" placeholder="Password">
+							</div>
+							<div class="checkbox">
+								<label>
+									<input type="checkbox"> Keep me logged in
+								</label>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">Register</button>
+							<button type="submit" class="btn btn-primary" data-dismiss="modal">Log In</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		
 		<nav class="navbar navbar-inverse navbar-static-top" role="navigation">
 			<div class="container-fluid">
 				<div class="navbar-header">
@@ -60,7 +93,8 @@
 						<button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-file"> </span> New ticket</button>
 					</form>
 					<ul class="nav navbar-nav navbar-right">
-							<li class="dropdown">
+							<li ng-hide="!!app.user.username"><a href="#" data-toggle="modal" data-target="#loginForm">Log In</a></li>
+							<li class="dropdown" ng-show="!!app.user.username">
 								<a href="#" class="dropdown-toggle avatar" data-toggle="dropdown">
 									<img class="brand avatar" src="img/ava/nazik.jpg" alt="Nazar Ivato"/> nivato <span class="caret"> </span>
 								</a>
@@ -75,52 +109,8 @@
 				</div>
 			</div>
 		</nav>
-		<h3>Sprint <a href="#">#11</a></h3>
-		<table class="table" ng-controller="SprintController as sprint">
-			<thead>
-				<tr>
-					<th>Todo <span class="badge">{{sprint.numberOfTicketsWithStatus('todo')}}</span></th>
-					<th>In Progress <span class="badge">{{sprint.numberOfTicketsWithStatus('inprogress')}}</span></th>
-					<th>Review <span class="badge">{{sprint.numberOfTicketsWithStatus('review')}}</span></th>
-					<th>Testing <span class="badge">{{sprint.numberOfTicketsWithStatus('testing')}}</span></th>
-					<th>Done <span class="badge">{{sprint.numberOfTicketsWithStatus('done')}}</span></th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>
-						<div class="list-group">
-							<board-ticket ng-repeat="ticket in sprint.tickets | filter : {status: 'todo'} "> </board-ticket>
-						</div>
-					</td>
-					<td>
-						<div class="list-group">
-							<board-ticket ng-repeat="ticket in sprint.tickets | filter : {status: 'inprogress'} "> </board-ticket>
-						</div>
-					</td>
-					<td>
-						<div class="list-group">
-							<board-ticket ng-repeat="ticket in sprint.tickets | filter : {status: 'review'} "> </board-ticket>
-						</div>
-					</td>
-					<td>
-						<div class="list-group">
-							<board-ticket ng-repeat="ticket in sprint.tickets | filter : {status: 'testing'} "> </board-ticket>
-						</div>
-					</td>
-					<td>
-						<div class="list-group">
-							<board-ticket ng-repeat="ticket in sprint.tickets | filter : {status: 'done'} "> </board-ticket>
-						</div>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-		<ul class="pager">
-			<li><a href="#">&larr; Previous Sprint</a></li>
-			<li class="disabled"><a href="#">Next Sprint &rarr;</a></li>
-		</ul>
-		<footer class="footer">
+		<sprint-board ng-show="!!app.user.username"> </sprint-board>
+		<footer class="footer" ng-show="!!app.user.username">
 			<span class="text-muted">Currently v0.0.1 | Disigned and built by nivato</span>
 		</footer>
 	</body>

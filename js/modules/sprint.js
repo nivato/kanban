@@ -25,30 +25,6 @@
 
     var app = angular.module('Sprint', []);
     
-    app.controller('SprintController', ['$http', function($http){
-        var sprint = this;
-        sprint.tmp = {};
-        this.tickets = [];
-        
-        $http.get('/tickets').success(function(tckts){
-        	sprint.tmp.tickets = tckts;
-        	$http.get('/people').success(function(ppl){
-        		sprint.tmp.people = ppl;
-        		enrichTickets(sprint);
-        	});
-        });
-        
-        this.numberOfTicketsWithStatus = function(status){
-            var num = 0;
-            for (var t = 0; t < this.tickets.length; t++){
-                if (this.tickets[t].status === status){
-                    num++;
-                }
-            }
-            return num;
-        };
-    }]);
-    
     app.filter('limitStrTo', function() {
         return function(input, limit) {
             input = input || '';
@@ -64,6 +40,37 @@
     	return {
     		restrict: 'E',
     		templateUrl: 'templates/board-ticket.html',
+    	};
+    });
+    
+    app.directive('sprintBoard', function(){
+    	return {
+    		restrict: 'E',
+    		templateUrl: 'templates/sprint-board.html',
+    		controller: ['$http', function($http){
+		        var sprint = this;
+		        sprint.tmp = {};
+		        this.tickets = [];
+		        
+		        $http.get('/tickets').success(function(tckts){
+		        	sprint.tmp.tickets = tckts;
+		        	$http.get('/people').success(function(ppl){
+		        		sprint.tmp.people = ppl;
+		        		enrichTickets(sprint);
+		        	});
+		        });
+		        
+		        this.numberOfTicketsWithStatus = function(status){
+		            var num = 0;
+		            for (var t = 0; t < this.tickets.length; t++){
+		                if (this.tickets[t].status === status){
+		                    num++;
+		                }
+		            }
+		            return num;
+		        };
+		    }],
+		    controllerAs: 'sprint'
     	};
     });
     

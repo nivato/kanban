@@ -1,0 +1,45 @@
+<h3>Sprint <a href="#">#11</a></h3>
+<table class="table">
+	<thead>
+		<tr>
+			<th>Todo <span class="badge">{{sprint.numberOfTicketsWithStatus('todo')}}</span></th>
+			<th>In Progress <span class="badge">{{sprint.numberOfTicketsWithStatus('inprogress')}}</span></th>
+			<th>Review <span class="badge">{{sprint.numberOfTicketsWithStatus('review')}}</span></th>
+			<th>Testing <span class="badge">{{sprint.numberOfTicketsWithStatus('testing')}}</span></th>
+			<th>Done <span class="badge">{{sprint.numberOfTicketsWithStatus('done')}}</span></th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>
+				<div class="list-group">
+					<board-ticket ng-repeat="ticket in sprint.tickets | filter : {status: 'todo'} "> </board-ticket>
+				</div>
+			</td>
+			<td>
+				<div class="list-group">
+					<board-ticket ng-repeat="ticket in sprint.tickets | filter : {status: 'inprogress'} "> </board-ticket>
+				</div>
+			</td>
+			<td>
+				<div class="list-group">
+					<board-ticket ng-repeat="ticket in sprint.tickets | filter : {status: 'review'} "> </board-ticket>
+				</div>
+			</td>
+			<td>
+				<div class="list-group">
+					<board-ticket ng-repeat="ticket in sprint.tickets | filter : {status: 'testing'} "> </board-ticket>
+				</div>
+			</td>
+			<td>
+				<div class="list-group">
+					<board-ticket ng-repeat="ticket in sprint.tickets | filter : {status: 'done'} "> </board-ticket>
+				</div>
+			</td>
+		</tr>
+	</tbody>
+</table>
+<ul class="pager">
+	<li><a href="#">&larr; Previous Sprint</a></li>
+	<li class="disabled"><a href="#">Next Sprint &rarr;</a></li>
+</ul>
