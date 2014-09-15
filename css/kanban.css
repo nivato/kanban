@@ -18,11 +18,19 @@
 .ticket-type {
 	width: 20px;
 	height: 20px;
-	border: 1px solid #777777;
+	border: 1px solid #000000;
 	-webkit-border-radius: 4px;
 	-moz-border-radius: 4px;
 	border-radius: 4px;
 	margin-right: 5px;
+}
+
+.bug {
+	border: 1px solid #FF0000;
+}
+
+.task {
+	border: 1px solid #00AA00;
 }
 
 table {
