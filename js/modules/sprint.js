@@ -30,9 +30,9 @@
         sprint.tmp = {};
         this.tickets = [];
         
-        $http.get('/json/tickets.json').success(function(tckts){
+        $http.get('/tickets').success(function(tckts){
         	sprint.tmp.tickets = tckts;
-        	$http.get('/json/people.json').success(function(ppl){
+        	$http.get('/people').success(function(ppl){
         		sprint.tmp.people = ppl;
         		enrichTickets(sprint);
         	});
