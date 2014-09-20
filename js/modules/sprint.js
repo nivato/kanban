@@ -1,28 +1,4 @@
 (function(){
-
-	function enrichTickets(sprint){
-	    var color_class_mapping = {
-	        red: 'list-group-item-danger',
-	        green: 'list-group-item-success',
-	        blue: 'list-group-item-info',
-	        yellow: 'list-group-item-warning',
-	        white: ''
-	    };
-	    for (var t = 0; t < sprint.tmp.tickets.length; t++){
-	        var ticket = sprint.tmp.tickets[t];
-	        for (var p = 0; p < sprint.tmp.people.length; p++){
-	            var person = sprint.tmp.people[p];
-	            if (ticket.assignee_id === person.username){
-	                ticket.assignee = person;
-	                ticket.css_class = color_class_mapping[person.color];
-	                break;
-	            }
-	        }
-	    }
-	    sprint.tickets = sprint.tmp.tickets;
-	    delete sprint.tmp;
-	}
-
     var app = angular.module('Sprint', []);
     
     app.filter('limitStrTo', function() {
@@ -37,41 +13,36 @@
     });
     
     app.directive('boardTicket', function(){
-    	return {
-    		restrict: 'E',
-    		templateUrl: 'templates/board-ticket.html',
-    	};
+        return {
+            restrict: 'E',
+            templateUrl: 'templates/board-ticket.html',
+        };
     });
     
     app.directive('sprintBoard', function(){
-    	return {
-    		restrict: 'E',
-    		templateUrl: 'templates/sprint-board.html',
-    		controller: ['$http', function($http){
-		        var sprint = this;
-		        sprint.tmp = {};
-		        this.tickets = [];
-		        
-		        $http.get('/tickets').success(function(tckts){
-		        	sprint.tmp.tickets = tckts;
-		        	$http.get('/people').success(function(ppl){
-		        		sprint.tmp.people = ppl;
-		        		enrichTickets(sprint);
-		        	});
-		        });
-		        
-		        this.numberOfTicketsWithStatus = function(status){
-		            var num = 0;
-		            for (var t = 0; t < this.tickets.length; t++){
-		                if (this.tickets[t].status === status){
-		                    num++;
-		                }
-		            }
-		            return num;
-		        };
-		    }],
-		    controllerAs: 'sprint'
-    	};
+        return {
+            restrict: 'E',
+            templateUrl: 'templates/sprint-board.html',
+            controller: ['$http', function($http){
+                var sprint = this;
+                this.tickets = [];
+                
+                $http.get('/tickets').success(function(tckts){
+                    sprint.tickets = tckts;
+                });
+                
+                this.numberOfTicketsWithStatus = function(status){
+                    var num = 0;
+                    for (var t = 0; t < this.tickets.length; t++){
+                        if (this.tickets[t].status === status){
+                            num++;
+                        }
+                    }
+                    return num;
+                };
+            }],
+            controllerAs: 'sprint'
+        };
     });
     
 })();
