@@ -4,12 +4,12 @@
     
     app.controller('ApplicationController', ['$http', function($http){
         
-        this.logout = function(){
-            user = {};
+        this.currentUser = function(){
+            return user;
         };
         
-        this.login = function(){
-            user = {username: 'nivato'};
+        this.logout = function(){
+            user = {};
         };
         
         this.authenticated = function(){
@@ -19,7 +19,29 @@
     }]);
     
     app.controller('LoginController', ['$http', function($http){
-        true;
+        this.username = '';
+        this.password = '';
+        this.error = '';
+        
+        this.submitLogin = function(){
+            var loginForm = this;
+            var dt = {
+                username: this.username,
+                password: this.password
+            };
+            this.username = '';
+            this.password = '';
+            this.error = '';
+            $http.post('/login', dt)
+                .success(function(data){
+                    user = data;
+                    loginForm.username = '';
+                    $('#loginForm').modal('hide');
+                })
+                .error(function(data, status, headers, config){
+                    loginForm.error = data.message;
+                });
+        };
     }]);
     
 })();

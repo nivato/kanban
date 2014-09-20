@@ -32,6 +32,18 @@
             }
         }
         
+        function getUser(username){
+            var user = {};
+            for (var p = 0; p < people.length; p++){
+                var person = people[p];
+                if ((person.username == username) || (person.email == username)){
+                    user = person;
+                    break;
+                }
+            }
+            return user;
+        }
+        
         people = loadDataFrom('/json/people.json');
         tickets = loadDataFrom('/json/tickets.json');
         enrichTickets();
@@ -63,6 +75,26 @@
                 to: '',
                 html: '',
                 message: 'Unauthorized'
+            }, {}];
+        });
+        
+        $httpBackend.whenPOST(/login/).respond(function(method, url, data, headers){
+            data = JSON.parse(data);
+            var user = getUser(data.username);
+            if (user.password === data.password){
+                var filteredObject = {
+                    username: user.username,
+                    first_name: user.first_name,
+                    last_name: user.last_name,
+                    picture: user.picture
+                };
+                return [200, filteredObject, {}];
+            }
+            return [401, {
+                status: 'error', //ok|redirect|error
+                to: '',
+                html: '',
+                message: 'Invalid Username and/or Password!'
             }, {}];
         });
         

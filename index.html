@@ -19,32 +19,33 @@
     </head>
     <body ng-controller="ApplicationController as app">
         
-        <div class="modal fade" id="loginForm" tabindex="-1" role="dialog" aria-labelledby="loginLabel" aria-hidden="true">
+        <div ng-controller="LoginController as lgn" class="modal fade" id="loginForm" tabindex="-1" role="dialog" aria-labelledby="loginLabel" aria-hidden="true">
             <div class="modal-dialog modal-sm">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                         <h4 class="modal-title" id="loginLabel">Login to the System</h4>
                     </div>
-                    <form role="form">
+                    <form role="form" ng-submit="lgn.submitLogin()">
                         <div class="modal-body">
                             <div class="form-group">
                                 <label for="username">Username or Email</label>
-                                <input type="text" class="form-control" id="username" placeholder="Enter email">
+                                <input ng-model="lgn.username" type="text" class="form-control" id="username" placeholder="Enter username/email" required>
                             </div>
                             <div class="form-group">
                                 <label for="password">Password</label>
-                                <input type="password" class="form-control" id="password" placeholder="Password">
+                                <input ng-model="lgn.password" type="password" class="form-control" id="password" placeholder="Password" required>
                             </div>
                             <div class="checkbox">
                                 <label>
                                     <input type="checkbox"> Keep me logged in
                                 </label>
                             </div>
+                            <p class="text-center text-danger">{{lgn.error}}</p>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Register</button>
-                            <button type="submit" class="btn btn-primary" data-dismiss="modal" ng-click="app.login()">Log In</button>
+                            <button type="submit" class="btn btn-primary">Log In</button>
                         </div>
                     </form>
                 </div>
@@ -96,7 +97,7 @@
                             <li ng-hide="app.authenticated()"><a href="#" data-toggle="modal" data-target="#loginForm">Log In</a></li>
                             <li class="dropdown" ng-show="app.authenticated()">
                                 <a href="#" class="dropdown-toggle avatar" data-toggle="dropdown">
-                                    <img class="brand avatar" src="img/ava/nazik.jpg" alt="Nazar Ivato"/> nivato <span class="caret"> </span>
+                                    <img class="brand avatar" ng-src="img/ava/{{app.currentUser().picture}}" alt="app.currentUser().first_name + ' ' + app.currentUser().last_name"/> {{app.currentUser().username}} <span class="caret"> </span>
                                 </a>
                                 <ul class="dropdown-menu" role="menu">
                                 <li><a href="#">Profile</a></li>
