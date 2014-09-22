@@ -1,0 +1,45 @@
+<nav class="navbar navbar-inverse navbar-static-top" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"> </span>
+                <span class="icon-bar"> </span>
+                <span class="icon-bar"> </span>
+            </button>
+            <a class="navbar-brand" href="#"><span class="glyphicon glyphicon-fire"> </span> Project Name</a>
+        </div>
+        <div class="collapse navbar-collapse" id="navbar-collapse">
+            <ul class="nav navbar-nav" ng-show="app.authenticated()">
+                <li class="active"><a href="#">Board</a></li>
+                <li><a href="#">Backlog</a></li>
+                <li><a href="#">Sprints</a></li>
+                <li><a href="#">Team</a></li>
+            </ul>
+            <form class="navbar-form navbar-left" role="search" ng-show="app.authenticated()">
+                <div class="form-group">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="enter search keywords...">
+                        <span class="input-group-addon btn btn-default"><span class="glyphicon glyphicon-search"> </span></span>
+                    </div>
+                </div>
+            </form>
+            <form class="navbar-form navbar-left" role="new" ng-show="app.authenticated()">
+                <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-file"> </span> New ticket</button>
+            </form>
+            <ul class="nav navbar-nav navbar-right">
+                    <li ng-hide="app.authenticated()"><a href="#" data-toggle="modal" data-target="#loginForm">Log In</a></li>
+                    <li class="dropdown" ng-show="app.authenticated()">
+                        <a href="#" class="dropdown-toggle avatar" data-toggle="dropdown">
+                            <img class="brand avatar" ng-src="img/ava/{{app.currentUser().picture}}" alt="app.currentUser().first_name + ' ' + app.currentUser().last_name"/> {{app.currentUser().username}} <span class="caret"> </span>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                        <li><a href="#">Profile</a></li>
+                        <li class="divider"> </li>
+                        <li><a href="#" ng-click="app.logout()">Log Out</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

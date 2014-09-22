@@ -45,4 +45,44 @@
         };
     }]);
     
+    app.directive('navigationBar', function(){
+        return {
+            restrict: 'E',
+            templateUrl: '/templates/navigation-bar.html'
+        };
+    });
+    
+    app.directive('loginForm', function(){
+        return {
+            restrict: 'E',
+            templateUrl: '/templates/login-form.html',
+            controller: ['$http', function($http){
+                this.username = '';
+                this.password = '';
+                this.error = '';
+                
+                this.submitLogin = function(){
+                    var loginForm = this;
+                    var dt = {
+                        username: this.username,
+                        password: this.password
+                    };
+                    this.username = '';
+                    this.password = '';
+                    this.error = '';
+                    $http.post('/login', dt)
+                        .success(function(data){
+                            user = data;
+                            loginForm.username = '';
+                            $('#loginForm').modal('hide');
+                        })
+                        .error(function(data, status, headers, config){
+                            loginForm.error = data.message;
+                        });
+                };
+            }],
+            controllerAs: 'lgn'
+        };
+    });
+    
 })();
