@@ -1,7 +1,32 @@
 (function(){
     //var user = {};
     var user = { "username": "nivato", "first_name": "Nazar", "last_name": "Ivato", "picture": "nazik.jpg", "color": "red"};
-    var app = angular.module('Kanban', ['Sprint']);
+    var app = angular.module('Kanban', ['Sprint', 'ngRoute']);
+    
+    app.config(['$routeProvider', function($routeProvider){
+        $routeProvider
+            .when('/', {
+                templateUrl: '/templates/sprint-board.html',
+                controller: ['$http', function($http){
+                    var sprint = this;
+                    this.tickets = [];
+                    
+                    $http.get('/tickets').success(function(tckts){
+                        sprint.tickets = tckts;
+                    });
+                    
+                    this.numberOfTicketsWithStatus = function(status){
+                        var num = 0;
+                        for (var t = 0; t < this.tickets.length; t++){
+                            if (this.tickets[t].status === status){
+                                num++;
+                            }
+                        }
+                        return num;
+                    };
+                }],
+            controllerAs: 'sprint'});
+    }]);
     
     app.controller('ApplicationController', ['$http', function($http){
         

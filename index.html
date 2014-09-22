@@ -11,6 +11,7 @@
         <script src="js/lib/bootstrap.min.js"></script>
         <script src="js/lib/angular.min.js"></script>
         <script src="js/lib/angular-mocks.js"></script>
+        <script src="js/lib/angular-route.min.js"></script>
         <script src="js/modules/sprint.js"></script>
         <script src="js/kanban.js"></script>
         <script src="js/kanban-mocked.js"></script>
@@ -20,7 +21,8 @@
     <body ng-controller="ApplicationController as app">
         <login-form> </login-form>
         <navigation-bar> </navigation-bar>
-        <sprint-board ng-show="app.authenticated()"> </sprint-board>
+        <ng-view></ng-view>
+        <!-- <sprint-board ng-show="app.authenticated()"> </sprint-board> -->
         <footer class="footer" ng-show="app.authenticated()">
             <span class="text-muted">Currently v0.0.1 | Disigned and built by nivato</span>
         </footer>
