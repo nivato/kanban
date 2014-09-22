@@ -1,5 +1,6 @@
 (function(){
-    var user = {};
+    //var user = {};
+    var user = { "username": "nivato", "first_name": "Nazar", "last_name": "Ivato", "picture": "nazik.jpg", "color": "red"};
     var app = angular.module('Kanban', ['Sprint']);
     
     app.controller('ApplicationController', ['$http', function($http){
