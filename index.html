@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="KanbanMocked">
     <head>
+    	<base href="/" />
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -12,7 +13,6 @@
         <script src="js/lib/angular.min.js"></script>
         <script src="js/lib/angular-mocks.js"></script>
         <script src="js/lib/angular-route.min.js"></script>
-        <script src="js/modules/sprint.js"></script>
         <script src="js/kanban.js"></script>
         <script src="js/kanban-mocked.js"></script>
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
@@ -22,7 +22,6 @@
         <login-form> </login-form>
         <navigation-bar> </navigation-bar>
         <ng-view></ng-view>
-        <!-- <sprint-board ng-show="app.authenticated()"> </sprint-board> -->
         <footer class="footer" ng-show="app.authenticated()">
             <span class="text-muted">Currently v0.0.1 | Disigned and built by nivato</span>
         </footer>
