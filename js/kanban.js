@@ -7,7 +7,7 @@
         $locationProvider.html5Mode(true);
         $routeProvider
             .when('/', {
-                templateUrl: '/templates/sprint-board.html',
+                templateUrl: '/templates/board.html',
                 controller: 'boardController',
                 controllerAs: 'sprint'
             })
