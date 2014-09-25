@@ -51,10 +51,6 @@
         
         
         $httpBackend.whenGET(/\/people/).respond(function(method, url, data, headers){
-            // console.log(method);
-            // console.log(url);
-            // console.log(data);
-            // console.log(headers);
             if (authenticated){
                 return [200, people, {}];
             }
@@ -82,6 +78,7 @@
             data = JSON.parse(data);
             var user = getUser(data.username);
             if (user.password === data.password){
+                authenticated = true;
                 var filteredObject = {
                     username: user.username,
                     first_name: user.first_name,
@@ -96,6 +93,11 @@
                 html: '',
                 message: 'Invalid Username and/or Password!'
             }, {}];
+        });
+        
+        $httpBackend.whenGET(/\/logout/).respond(function(method, url, data, headers){
+            authenticated = false;
+            return [200, {status: 'ok'}, {}];
         });
         
         $httpBackend.whenGET(/templates\/.*/).passThrough();

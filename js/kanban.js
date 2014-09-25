@@ -20,16 +20,20 @@
     
     app.controller('ApplicationController', ['$scope', '$http', function($scope, $http){
         var appCtrl = this;
-        //this.user = {}; FIXME: Uncomment this and remove next line when in prod
+        //this.user = {}; FIXME: Uncomment this and remove next line when in real life
         this.user = { "username": "nivato", "first_name": "Nazar", "last_name": "Ivato", "picture": "nazik.jpg", "color": "red"};
         this.logout = function(){
             this.user = {};
+            $http.get('/logout').success(function(data){
+                $scope.$broadcast('user_logged_out', null);
+            });
         };
         this.authenticated = function(){
             return !!this.user.username;
         };
         $scope.$on('user_logged_in', function(event, data){
             appCtrl.user = data;
+            $scope.$broadcast('refresh_board', null);
         });
     }]);
     
@@ -43,14 +47,9 @@
         };
     });
     
-    app.controller('boardController', ['$http', function($http){
+    app.controller('boardController', ['$scope', '$http', function($scope, $http){
         var sprint = this;
         this.tickets = [];
-        
-        $http.get('/tickets').success(function(data){
-            sprint.tickets = data;
-        });
-        
         this.numberOfTicketsWithStatus = function(status){
             var num = 0;
             for (var t = 0; t < this.tickets.length; t++){
@@ -60,13 +59,28 @@
             }
             return num;
         };
+        this.refresh = function(){
+            $http.get('/tickets')
+                .success(function(data){
+                    sprint.tickets = data;
+                })
+                .error(function(data, status, headers, config){
+                    sprint.tickets = [];
+                });
+        };
+        $scope.$on('user_logged_out', function(event, data){
+            sprint.refresh();
+        });
+        $scope.$on('refresh_board', function(event, data){
+            sprint.refresh();
+        });
+        this.refresh();
     }]);
     
     app.controller('loginController', ['$scope', '$http', function($scope, $http){
         this.username = '';
         this.password = '';
         this.error = '';
-        
         this.submitLogin = function(){
             var loginForm = this;
             var dt = {
