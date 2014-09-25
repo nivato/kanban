@@ -20,12 +20,12 @@
                 <div class="form-group">
                     <div class="input-group">
                         <input type="text" class="form-control" placeholder="enter search keywords...">
-                        <a href="/search" class="input-group-addon btn btn-default"><span class="glyphicon glyphicon-search"> </span></a>
+                        <a href="/search" class="input-group-addon btn btn-default" ng-click="nav.selectTab('none')"><span class="glyphicon glyphicon-search"> </span></a>
                     </div>
                 </div>
             </form>
             <form class="navbar-form navbar-left" role="new" ng-show="app.authenticated()">
-                <a href="/notfound" class="btn btn-primary" ng-click="nav.selectTab('none')"><span class="glyphicon glyphicon-file"> </span> New ticket</a>
+                <a href="/something_not_existing" class="btn btn-primary" ng-click="nav.selectTab('none')"><span class="glyphicon glyphicon-file"> </span> New ticket</a>
             </form>
             <ul class="nav navbar-nav navbar-right">
                     <li ng-hide="app.authenticated()"><a href="#" data-toggle="modal" data-target="#loginForm">Log In</a></li>

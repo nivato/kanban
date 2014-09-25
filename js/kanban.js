@@ -15,17 +15,18 @@
             .when('/sprints', {templateUrl: '/templates/sprints.html'})
             .when('/team', {templateUrl: '/templates/team.html'})
             .when('/notfound', {templateUrl: '/templates/notfound.html'})
-            .otherwise({redirectTo: '/'});
+            .when('/welcome', {templateUrl: '/templates/welcome.html'})
+            .otherwise({redirectTo: '/notfound'});
     }]);
     
-    app.controller('ApplicationController', ['$scope', '$http', function($scope, $http){
+    app.controller('ApplicationController', ['$scope', '$location', '$http', function($scope, $location, $http){
         var appCtrl = this;
-        //this.user = {}; FIXME: Uncomment this and remove next line when in real life
+        //this.user = {}; //FIXME: Uncomment this and remove next line when in real life
         this.user = { "username": "nivato", "first_name": "Nazar", "last_name": "Ivato", "picture": "nazik.jpg", "color": "red"};
         this.logout = function(){
             this.user = {};
             $http.get('/logout').success(function(data){
-                $scope.$broadcast('user_logged_out', null);
+                $location.path('/welcome');
             });
         };
         this.authenticated = function(){
@@ -33,8 +34,10 @@
         };
         $scope.$on('user_logged_in', function(event, data){
             appCtrl.user = data;
-            $scope.$broadcast('refresh_board', null);
         });
+        if (!this.authenticated()){
+            $location.path('/welcome');
+        };
     }]);
     
     app.controller('navigationController', function(){
@@ -47,7 +50,7 @@
         };
     });
     
-    app.controller('boardController', ['$scope', '$http', function($scope, $http){
+    app.controller('boardController', ['$scope', '$location', '$http', function($scope, $location, $http){
         var sprint = this;
         this.tickets = [];
         this.numberOfTicketsWithStatus = function(status){
@@ -66,18 +69,15 @@
                 })
                 .error(function(data, status, headers, config){
                     sprint.tickets = [];
+                    if (data.message === 'Unauthorized'){
+                        $location.path('/welcome');
+                    }
                 });
         };
-        $scope.$on('user_logged_out', function(event, data){
-            sprint.refresh();
-        });
-        $scope.$on('refresh_board', function(event, data){
-            sprint.refresh();
-        });
         this.refresh();
     }]);
     
-    app.controller('loginController', ['$scope', '$http', function($scope, $http){
+    app.controller('loginController', ['$scope', '$location', '$http', function($scope, $location, $http){
         this.username = '';
         this.password = '';
         this.error = '';
@@ -94,6 +94,7 @@
                 .success(function(data){
                     $scope.$emit('user_logged_in', data);
                     $('#loginForm').modal('hide');
+                    $location.path('/');
                 })
                 .error(function(data, status, headers, config){
                     loginForm.error = data.message;
