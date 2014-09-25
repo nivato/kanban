@@ -1,6 +1,4 @@
 (function(){
-    //var user = {};
-    var user = { "username": "nivato", "first_name": "Nazar", "last_name": "Ivato", "picture": "nazik.jpg", "color": "red"};
     var app = angular.module('Kanban', ['ngRoute']);
     
     app.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider){
@@ -20,17 +18,30 @@
             .otherwise({redirectTo: '/'});
     }]);
     
-    app.controller('ApplicationController', ['$http', function($http){
-        this.currentUser = function(){
-            return user;
-        };
+    app.controller('ApplicationController', ['$scope', '$http', function($scope, $http){
+        var appCtrl = this;
+        //this.user = {}; FIXME: Uncomment this and remove next line when in prod
+        this.user = { "username": "nivato", "first_name": "Nazar", "last_name": "Ivato", "picture": "nazik.jpg", "color": "red"};
         this.logout = function(){
-            user = {};
+            this.user = {};
         };
         this.authenticated = function(){
-            return !!user.username;
+            return !!this.user.username;
         };
+        $scope.$on('user_logged_in', function(event, data){
+            appCtrl.user = data;
+        });
     }]);
+    
+    app.controller('navigationController', function(){
+        this.tab = 'board';
+        this.selectTab = function(setTab){
+            this.tab = setTab;
+        };
+        this.isSelceted = function(checkTab){
+            return this.tab === checkTab;
+        };
+    });
     
     app.controller('boardController', ['$http', function($http){
         var sprint = this;
@@ -51,7 +62,7 @@
         };
     }]);
     
-    app.controller('loginController', ['$http', function($http){
+    app.controller('loginController', ['$scope', '$http', function($scope, $http){
         this.username = '';
         this.password = '';
         this.error = '';
@@ -67,8 +78,7 @@
             this.error = '';
             $http.post('/login', dt)
                 .success(function(data){
-                    user = data;
-                    loginForm.username = '';
+                    $scope.$emit('user_logged_in', data);
                     $('#loginForm').modal('hide');
                 })
                 .error(function(data, status, headers, config){
@@ -80,7 +90,9 @@
     app.directive('navigationBar', function(){
         return {
             restrict: 'E',
-            templateUrl: '/templates/navigation-bar.html'
+            templateUrl: '/templates/navigation-bar.html',
+            controller: 'navigationController',
+            controllerAs: 'nav'
         };
     });
     
