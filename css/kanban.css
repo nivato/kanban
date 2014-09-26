@@ -15,6 +15,10 @@
 	content: "\e600";
 }
 
+.logo {
+	font-size: 200px;
+}
+
 .dropdown-toggle.avatar {
     padding: 5px 15px 5px 15px;
 }
