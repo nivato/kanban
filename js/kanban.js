@@ -16,6 +16,7 @@
             .when('/team', {templateUrl: '/templates/team.html'})
             .when('/notfound', {templateUrl: '/templates/notfound.html'})
             .when('/welcome', {templateUrl: '/templates/welcome.html'})
+            .when('/register', {templateUrl: '/templates/register.html'})
             .otherwise({redirectTo: '/notfound'});
     }]);
     
@@ -99,6 +100,10 @@
                 .error(function(data, status, headers, config){
                     loginForm.error = data.message;
                 });
+        };
+        this.registration = function(){
+            $('#loginForm').modal('hide');
+            $location.path('/register');
         };
     }]);
     
