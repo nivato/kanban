@@ -22,11 +22,11 @@
     
     app.controller('ApplicationController', ['$scope', '$location', '$http', function($scope, $location, $http){
         var appCtrl = this;
-        //this.user = {}; //FIXME: Uncomment this and remove next line when in real life
-        this.user = { "username": "nivato", "first_name": "Nazar", "last_name": "Ivato", "picture": "nazik.jpg", "color": "red"};
+        this.user = {};
+        //this.user = { "username": "nivato", "first_name": "Nazar", "last_name": "Ivato", "picture": "nazik.jpg", "color": "red"};
         this.logout = function(){
-            this.user = {};
             $http.get('/logout').success(function(data){
+                appCtrl.user = {};
                 $location.path('/welcome');
             });
         };
@@ -37,7 +37,9 @@
             appCtrl.user = data;
         });
         if (!this.authenticated()){
-            $location.path('/welcome');
+            if ($location.path() !== '/register'){
+                $location.path('/welcome');
+            }
         };
     }]);
     
@@ -65,7 +67,7 @@
         };
         this.refresh = function(){
             $http.get('/tickets')
-                .success(function(data){
+                .success(function(data, status, headers, config){
                     sprint.tickets = data;
                 })
                 .error(function(data, status, headers, config){

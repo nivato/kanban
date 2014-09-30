@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="KanbanMocked">
+<html lang="en" ng-app="Kanban">
     <head>
     	<base href="/" />
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -11,10 +11,8 @@
         <script src="js/lib/jquery-1.11.1.min.js"></script>
         <script src="js/lib/bootstrap.min.js"></script>
         <script src="js/lib/angular.min.js"></script>
-        <script src="js/lib/angular-mocks.js"></script>
         <script src="js/lib/angular-route.min.js"></script>
         <script src="js/kanban.js"></script>
-        <script src="js/kanban-mocked.js"></script>
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="css/kanban.css">
     </head>
@@ -22,7 +20,7 @@
         <login-form> </login-form>
         <navigation-bar> </navigation-bar>
         <ng-view></ng-view>
-        <footer class="footer" ng-show="app.authenticated()">
+        <footer class="footer">
             <span class="text-muted"><span class="glyphicon kanban-icon"> </span> Kanban v0.0.1 | Developed by nivato</span>
         </footer>
     </body>

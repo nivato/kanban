@@ -18,6 +18,11 @@ get '/' do
   send_file 'public/index.html'
 end
 
+get '/tickets' do
+  content_type 'application/json'
+  return [401, {:status => 'error', :message => 'Unauthorized'}.to_json]
+end
+
 post '/register' do
   data = JSON.parse request.body.read
   return [200, 'ok']
