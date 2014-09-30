@@ -25,7 +25,10 @@ end
 
 post '/register' do
   data = JSON.parse request.body.read
-  return [200, 'ok']
+  if data['username']
+    return [200, {:status => 'ok'}.to_json]
+  end
+  return [401, {:status => 'error', :message => 'Username already taken!'}.to_json]
 end
 
 get '/access' do

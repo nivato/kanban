@@ -4,11 +4,7 @@
     app.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider){
         $locationProvider.html5Mode(true);
         $routeProvider
-            .when('/', {
-                templateUrl: '/templates/board.html',
-                controller: 'boardController',
-                controllerAs: 'sprint'
-            })
+            .when('/', {templateUrl: '/templates/board.html', controller: 'boardController', controllerAs: 'sprint'})
             .when('/backlog', {templateUrl: '/templates/backlog.html'})
             .when('/profile', {templateUrl: '/templates/profile.html'})
             .when('/search', {templateUrl: '/templates/search.html'})
@@ -16,7 +12,7 @@
             .when('/team', {templateUrl: '/templates/team.html'})
             .when('/notfound', {templateUrl: '/templates/notfound.html'})
             .when('/welcome', {templateUrl: '/templates/welcome.html'})
-            .when('/register', {templateUrl: '/templates/register.html'})
+            .when('/register', {templateUrl: '/templates/register.html', controller: 'RegistrationController', controllerAs: 'reg'})
             .otherwise({redirectTo: '/notfound'});
     }]);
     
@@ -40,6 +36,25 @@
             if ($location.path() !== '/register'){
                 $location.path('/welcome');
             }
+        };
+    }]);
+    
+    app.controller('RegistrationController', ['$http', '$location', function($http, $location){
+        var reg = this;
+        this.user = {};
+        this.message = "";
+        this.submitRegistration = function(){
+            this.message = "";
+            $http.post('/register', this.user)
+                .success(function(data){
+                    $location.path('/welcome');
+                })
+                .error(function(data){
+                    reg.message = data.message;
+                });
+        };
+        this.cancelRegistration = function(){
+            $location.path('/welcome');
         };
     }]);
     
