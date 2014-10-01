@@ -4,7 +4,7 @@
     app.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider){
         $locationProvider.html5Mode(true);
         $routeProvider
-            .when('/', {templateUrl: '/templates/board.html', controller: 'boardController', controllerAs: 'sprint'})
+            .when('/', {templateUrl: '/templates/board.html', controller: 'BoardController', controllerAs: 'sprint'})
             .when('/backlog', {templateUrl: '/templates/backlog.html'})
             .when('/profile', {templateUrl: '/templates/profile.html'})
             .when('/search', {templateUrl: '/templates/search.html'})
@@ -21,7 +21,7 @@
         this.user = {};
         //this.user = { "username": "nivato", "first_name": "Nazar", "last_name": "Ivato", "picture": "nazik.jpg", "color": "red"};
         this.logout = function(){
-            $http.get('/logout').success(function(data){
+            $http.get('/logout').success(function(data, status, headers, config){
                 appCtrl.user = {};
                 $location.path('/welcome');
             });
@@ -42,15 +42,15 @@
     app.controller('RegistrationController', ['$http', '$location', function($http, $location){
         var reg = this;
         this.user = {};
-        this.message = "";
+        this.messages = [];
         this.submitRegistration = function(){
-            this.message = "";
+            this.messages = [];
             $http.post('/register', this.user)
-                .success(function(data){
+                .success(function(data, status, headers, config){
                     $location.path('/welcome');
                 })
-                .error(function(data){
-                    reg.message = data.message;
+                .error(function(data, status, headers, config){
+                    reg.messages = data.messages;
                 });
         };
         this.cancelRegistration = function(){
@@ -68,7 +68,7 @@
         };
     });
     
-    app.controller('boardController', ['$scope', '$location', '$http', function($scope, $location, $http){
+    app.controller('BoardController', ['$scope', '$location', '$http', function($scope, $location, $http){
         var sprint = this;
         this.tickets = [];
         this.numberOfTicketsWithStatus = function(status){
@@ -87,7 +87,7 @@
                 })
                 .error(function(data, status, headers, config){
                     sprint.tickets = [];
-                    if (data.message === 'Unauthorized'){
+                    if (data.messages[0] === 'Unauthorized'){
                         $location.path('/welcome');
                     }
                 });
@@ -96,26 +96,20 @@
     }]);
     
     app.controller('loginController', ['$scope', '$location', '$http', function($scope, $location, $http){
-        this.username = '';
-        this.password = '';
-        this.error = '';
+        var loginForm = this;
+        this.user = {};
+        this.messages = [];
         this.submitLogin = function(){
-            var loginForm = this;
-            var dt = {
-                username: this.username,
-                password: this.password
-            };
-            this.username = '';
-            this.password = '';
-            this.error = '';
-            $http.post('/login', dt)
-                .success(function(data){
-                    $scope.$emit('user_logged_in', data);
+            this.messages = [];
+            $http.post('/login', this.user)
+                .success(function(data, status, headers, config){
+                    loginForm.user = {};
+                    $scope.$emit('user_logged_in', data.data);
                     $('#loginForm').modal('hide');
                     $location.path('/');
                 })
                 .error(function(data, status, headers, config){
-                    loginForm.error = data.message;
+                    loginForm.messages = data.messages;
                 });
         };
         this.registration = function(){
