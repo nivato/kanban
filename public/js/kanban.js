@@ -35,7 +35,9 @@
                 appCtrl.user = response.data;
             })
             .error(function(response, status, headers, config){
-                $location.path('/welcome');
+                if ($location.path() !== '/register'){
+                    $location.path('/welcome');
+                }
             });
     }]);
     

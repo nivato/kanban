@@ -28,6 +28,11 @@
     height: 40px;
 }
 
+.profile-avatar {
+	width: 70px;
+    height: 70px;
+}
+
 .pull-left.avatar {
     margin-right: 10px;
 }
@@ -54,7 +59,7 @@
     border: 1px solid #00AA00;
 }
 
-table {
+table.board {
     table-layout: fixed;
     min-height: 500px;
 }
