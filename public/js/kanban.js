@@ -10,18 +10,19 @@
             .when('/search', {templateUrl: '/templates/search.html'})
             .when('/sprints', {templateUrl: '/templates/sprints.html'})
             .when('/team', {templateUrl: '/templates/team.html'})
-            .when('/notfound', {templateUrl: '/templates/notfound.html'})
             .when('/welcome', {templateUrl: '/templates/welcome.html'})
             .when('/register', {templateUrl: '/templates/register.html', controller: 'RegistrationController', controllerAs: 'reg'})
-            .otherwise({redirectTo: '/notfound'});
+            .otherwise({templateUrl: '/templates/notfound.html'});
     }]);
     
     app.controller('ApplicationController', ['$scope', '$location', '$http', function($scope, $location, $http){
         var appCtrl = this;
         this.user = {};
-        //this.user = { "username": "nivato", "first_name": "Nazar", "last_name": "Ivato", "picture": "nazik.jpg", "color": "red"};
+        $scope.$on('user_logged_in', function(event, data){
+            appCtrl.user = data;
+        });
         this.logout = function(){
-            $http.get('/logout').success(function(data, status, headers, config){
+            $http.get('/api/logout').success(function(response, status, headers, config){
                 appCtrl.user = {};
                 $location.path('/welcome');
             });
@@ -29,14 +30,13 @@
         this.authenticated = function(){
             return !!this.user.username;
         };
-        $scope.$on('user_logged_in', function(event, data){
-            appCtrl.user = data;
-        });
-        if (!this.authenticated()){
-            if ($location.path() !== '/register'){
+        $http.get('/api/access')
+            .success(function(response, status, headers, config){
+                appCtrl.user = response.data;
+            })
+            .error(function(response, status, headers, config){
                 $location.path('/welcome');
-            }
-        };
+            });
     }]);
     
     app.controller('RegistrationController', ['$http', '$location', function($http, $location){
@@ -45,12 +45,12 @@
         this.messages = [];
         this.submitRegistration = function(){
             this.messages = [];
-            $http.post('/register', this.user)
-                .success(function(data, status, headers, config){
+            $http.post('/api/register', this.user)
+                .success(function(response, status, headers, config){
                     $location.path('/welcome');
                 })
-                .error(function(data, status, headers, config){
-                    reg.messages = data.messages;
+                .error(function(response, status, headers, config){
+                    reg.messages = response.messages;
                 });
         };
         this.cancelRegistration = function(){
@@ -58,7 +58,7 @@
         };
     }]);
     
-    app.controller('navigationController', function(){
+    app.controller('NavigationController', function(){
         this.tab = 'board';
         this.selectTab = function(setTab){
             this.tab = setTab;
@@ -81,13 +81,13 @@
             return num;
         };
         this.refresh = function(){
-            $http.get('/tickets')
-                .success(function(data, status, headers, config){
-                    sprint.tickets = data;
+            $http.get('/api/tickets')
+                .success(function(response, status, headers, config){
+                    sprint.tickets = response.data;
                 })
-                .error(function(data, status, headers, config){
+                .error(function(response, status, headers, config){
                     sprint.tickets = [];
-                    if (data.messages[0] === 'Unauthorized'){
+                    if (response.messages[0] === 'Unauthorized'){
                         $location.path('/welcome');
                     }
                 });
@@ -101,15 +101,15 @@
         this.messages = [];
         this.submitLogin = function(){
             this.messages = [];
-            $http.post('/login', this.user)
-                .success(function(data, status, headers, config){
+            $http.post('/api/login', this.user)
+                .success(function(response, status, headers, config){
                     loginForm.user = {};
-                    $scope.$emit('user_logged_in', data.data);
+                    $scope.$emit('user_logged_in', response.data);
                     $('#loginForm').modal('hide');
                     $location.path('/');
                 })
-                .error(function(data, status, headers, config){
-                    loginForm.messages = data.messages;
+                .error(function(response, status, headers, config){
+                    loginForm.messages = response.messages;
                 });
         };
         this.registration = function(){
@@ -122,7 +122,7 @@
         return {
             restrict: 'E',
             templateUrl: '/templates/navigation-bar.html',
-            controller: 'navigationController',
+            controller: 'NavigationController',
             controllerAs: 'nav'
         };
     });

@@ -8,11 +8,25 @@ set :session_secret, 'cfbe90bbaa81bfd3eb009b8e0d87a1abdee6cf88c0ac91a61476d88163
 
 helpers do
   def filtered_user(user)
-    {:id => user.id, :username => user.username}.to_json
+    {:id => user.id, :username => user.username}
   end
   
   def model_errors(model)
     model.errors.messages.map{|field, messages| "#{field.to_s.split('_').join(' ').capitalize}: #{messages.map{|message| message.capitalize}.join('. ')}"}
+  end
+end
+
+before '/api/:api' do
+  if ['access', 'register', 'login'].include? params[:api]
+    pass
+  end
+  if session[:user_id]
+    unless User.exists?(session[:user_id])
+      session.clear
+      halt 401, {:status => :error, :messages => ['Unauthorized']}.to_json
+    end
+  else
+    halt 401, {:status => :error, :messages => ['Unauthorized']}.to_json
   end
 end
 
@@ -25,30 +39,26 @@ get '/' do
   send_file 'public/index.html'
 end
 
-get '/tickets' do
-  content_type 'application/json'
-  return [401, {:status => :error, :messages => ['Unauthorized']}.to_json]
+get '/api/tickets' do
+  return [200, {:status => :ok, :data => []}.to_json]
 end
 
-post '/register' do
+post '/api/register' do
   data = JSON.parse request.body.read
   user = User.new(data)
   if user.save
-    return [200, {:status => :ok, :data => filtered_user(user)}.to_json]
+    return [200, {:status => :ok}.to_json]
   else
     return [400, {:status => :error, :messages => model_errors(user)}.to_json]
   end
 end
 
-get '/access' do
-  if session[:user_id]
-    user = User.find(session[:user_id])
-    return [200, user.username]
-  end
-  return [401, 'Unauthorized']
+get '/api/access' do
+  user = User.find(session[:user_id])
+  return [200, {:status => :ok, :data => filtered_user(user)}.to_json]
 end
 
-post '/login' do
+post '/api/login' do
   data = JSON.parse request.body.read
   user = User.authenticate(data['username'], data['password'])
   if user
@@ -59,9 +69,9 @@ post '/login' do
   end
 end
 
-get '/logout' do
-  session.delete(:user_id)
-  return [200, 'Ok']
+get '/api/logout' do
+  session.clear
+  return [200, {:status => :ok}.to_json]
 end
 
 not_found do

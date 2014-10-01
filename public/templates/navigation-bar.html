@@ -31,7 +31,7 @@
                     <li ng-hide="app.authenticated()"><a href="#" data-toggle="modal" data-target="#loginForm">Log In</a></li>
                     <li class="dropdown" ng-show="app.authenticated()">
                         <a href="#" class="dropdown-toggle avatar" data-toggle="dropdown">
-                            <img class="brand avatar" ng-src="img/ava/{{app.user.picture}}" alt="app.user.first_name + ' ' + app.user.last_name"/> {{app.user.username}} <span class="caret"> </span>
+                            <img class="brand avatar" ng-src="img/ava/{{app.user.picture || 'no_avatar.png'}}"/> {{app.user.username}} <span class="caret"> </span>
                         </a>
                         <ul class="dropdown-menu" role="menu">
                         <li><a href="/profile" ng-click="nav.selectTab('none')">Profile</a></li>
