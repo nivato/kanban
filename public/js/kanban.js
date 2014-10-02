@@ -145,6 +145,25 @@
         };
     });
     
+    app.directive('skype', function(){
+        return {
+            restrict: 'E',
+            templateUrl: 'templates/skype.html',
+            controller: function(){
+                this.name = '';
+                this.apply = function(){
+                    Skype.ui({
+                        'name': 'dropdown',
+                        'element': this.name,
+                        'participants': [this.name],
+                        'imageSize': 32
+                    });
+                };
+            },
+            controllerAs: 'skype'
+        };
+    });
+    
     app.filter('limitStrTo', function() {
         return function(input, limit) {
             input = input || '';
