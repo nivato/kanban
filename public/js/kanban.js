@@ -1,18 +1,23 @@
 (function(){
-    var app = angular.module('Kanban', ['ngRoute']);
+    var app = angular.module('Kanban', ['ngRoute', 'flow']);
     
-    app.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider){
+    app.config(['$routeProvider', '$locationProvider', 'flowFactoryProvider', function($routeProvider, $locationProvider, flowFactoryProvider){
         $locationProvider.html5Mode(true);
         $routeProvider
             .when('/', {templateUrl: '/templates/board.html', controller: 'BoardController', controllerAs: 'sprint'})
             .when('/backlog', {templateUrl: '/templates/backlog.html'})
-            .when('/profile', {templateUrl: '/templates/profile.html'})
+            .when('/profile', {templateUrl: '/templates/profile.html', controller: 'ProfileController', controllerAs: 'profile'})
             .when('/search', {templateUrl: '/templates/search.html'})
             .when('/sprints', {templateUrl: '/templates/sprints.html'})
             .when('/team', {templateUrl: '/templates/team.html'})
             .when('/welcome', {templateUrl: '/templates/welcome.html'})
             .when('/register', {templateUrl: '/templates/register.html', controller: 'RegistrationController', controllerAs: 'reg'})
             .otherwise({templateUrl: '/templates/notfound.html'});
+        flowFactoryProvider.defaults = {
+            target: '/api/upload',
+            permanentErrors: [404, 500, 501], 
+            testChunks: false
+        };
     }]);
     
     app.controller('ApplicationController', ['$scope', '$location', '$http', function($scope, $location, $http){
@@ -97,7 +102,7 @@
         this.refresh();
     }]);
     
-    app.controller('loginController', ['$scope', '$location', '$http', function($scope, $location, $http){
+    app.controller('LoginController', ['$scope', '$location', '$http', function($scope, $location, $http){
         var loginForm = this;
         this.user = {};
         this.messages = [];
@@ -120,6 +125,12 @@
         };
     }]);
     
+    app.controller('ProfileController', ['$scope', function($scope){
+        this.saveAvatar = function(){
+            this.$flow.upload();
+        };
+    }]);
+    
     app.directive('navigationBar', function(){
         return {
             restrict: 'E',
@@ -133,7 +144,7 @@
         return {
             restrict: 'E',
             templateUrl: '/templates/login-form.html',
-            controller: 'loginController',
+            controller: 'LoginController',
             controllerAs: 'lgn'
         };
     });
@@ -142,25 +153,6 @@
         return {
             restrict: 'E',
             templateUrl: 'templates/board-ticket.html',
-        };
-    });
-    
-    app.directive('skype', function(){
-        return {
-            restrict: 'E',
-            templateUrl: 'templates/skype.html',
-            controller: function(){
-                this.name = '';
-                this.apply = function(){
-                    Skype.ui({
-                        'name': 'dropdown',
-                        'element': this.name,
-                        'participants': [this.name],
-                        'imageSize': 32
-                    });
-                };
-            },
-            controllerAs: 'skype'
         };
     });
     

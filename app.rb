@@ -74,6 +74,15 @@ get '/api/logout' do
   return [200, {:status => :ok}.to_json]
 end
 
+post '/api/upload' do
+  tempfile = params[:file][:tempfile]
+  filename = params[:file][:filename]
+  File.open("public/img/ava/#{params[:file][:filename]}", "w") do |file|
+    file.write(params[:file][:tempfile].read)
+  end
+  return [200, {:status => :ok}.to_json]
+end
+
 not_found do
   send_file 'public/index.html'
 end

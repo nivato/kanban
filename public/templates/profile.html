@@ -8,10 +8,12 @@
 			<div class="form-divider"></div>
 			<div class="row">
 	            <div class="col-md-5 col-sm-5 col-xs-5 text-right"><strong>Avatar</strong></div>
-	            <div class="col-md-6 col-sm-6 col-xs-6">
-	            	<img class="thumbnail profile-avatar" src="img/ava/no_avatar.png"/>
+	            <div class="col-md-6 col-sm-6 col-xs-6" flow-init="{singleFile:true}" flow-name="profile.$flow">
+	            	<img class="thumbnail profile-avatar" src="img/ava/no_avatar.png" flow-img="$flow.files[0]" />
+	            	<p class="text-muted" ng-repeat="file in $flow.files">{{file.name}}</p>
 	            	<div class="btn-group btn-group-xs">
-	            		<span class="btn btn-default"><span class="glyphicon glyphicon-picture"></span> Change...<input type="file" class="sr-only"></span>
+	            		<span class="btn btn-default" flow-btn><span class="glyphicon glyphicon-picture"></span> Change...<input type="file" class="sr-only"></span>
+	            		<span class="btn btn-primary" ng-show="$flow.files.length" ng-click="profile.saveAvatar()"><span class="glyphicon icon-disk"></span> Save</span>
 	            	</div>
 	            </div>
 	        </div>
