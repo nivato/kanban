@@ -10,9 +10,16 @@
 	            <div class="col-md-5 col-sm-5 col-xs-5 text-right"><strong>Avatar</strong></div>
 	            <div class="col-md-6 col-sm-6 col-xs-6" flow-init="{singleFile:true}" flow-name="profile.$flow">
 	            	<img class="thumbnail profile-avatar" src="img/ava/no_avatar.png" flow-img="$flow.files[0]" />
-	            	<p class="text-muted" ng-repeat="file in $flow.files">{{file.name}}</p>
 	            	<div class="btn-group btn-group-xs">
-	            		<span class="btn btn-default" flow-btn><span class="glyphicon glyphicon-picture"></span> Change...<input type="file" class="sr-only"></span>
+	            	    <div ng-repeat="file in $flow.files" class="transfer-box">
+                            <div class="progress progress-striped avatar-progress" ng-class="{active:file.isUploading()}">
+                                <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" ng-style="{width: (file.progress() * 100) + '%'}">
+                                    <span class="sr-only">100% Complete</span>
+                                </div>
+                            </div>
+                        </div>
+	            		<span class="btn btn-default" flow-btn ng-click="profile.changeAvatar()"><span class="glyphicon glyphicon-picture"></span> Change...<input type="file" class="sr-only"></span>
+	            		<span class="btn btn-default" ng-show="$flow.files.length" ng-click="profile.cancelAvatar()"><span class="glyphicon glyphicon-remove"></span> Cancel</span>
 	            		<span class="btn btn-primary" ng-show="$flow.files.length" ng-click="profile.saveAvatar()"><span class="glyphicon icon-disk"></span> Save</span>
 	            	</div>
 	            </div>

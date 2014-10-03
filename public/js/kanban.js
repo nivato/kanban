@@ -65,15 +65,35 @@
         };
     }]);
     
-    app.controller('NavigationController', function(){
-        this.tab = 'board';
-        this.selectTab = function(setTab){
-            this.tab = setTab;
+    app.controller('NavigationController', ['$scope', '$location', function($scope, $location){
+        var navbar = this;
+        this.tab = 'none';
+        this.refresh = function(){
+            switch($location.path()) {
+                case '/':
+                    this.tab = 'board';
+                    break;
+                case '/backlog':
+                    this.tab = 'backlog';
+                    break;
+                case '/sprints':
+                    this.tab = 'sprints';
+                    break;
+                case '/team':
+                    this.tab = 'team';
+                    break;
+                default:
+                    this.tab = 'none';
+            }
         };
         this.isSelceted = function(checkTab){
             return this.tab === checkTab;
         };
-    });
+        $scope.$on('$locationChangeSuccess', function(event, data){
+            navbar.refresh();
+        });
+        this.refresh();
+    }]);
     
     app.controller('BoardController', ['$scope', '$location', '$http', function($scope, $location, $http){
         var sprint = this;
@@ -125,9 +145,27 @@
         };
     }]);
     
-    app.controller('ProfileController', ['$scope', function($scope){
+    app.controller('ProfileController', ['$scope', '$timeout', function($scope, $timeout){
+        var profile = this;
+        var allowedTypes = ['image/jpeg', 'image/pjpeg', 'image/png', 'image/gif', 'image/bmp', 'image/x-windows-bmp'];
+        this.changeAvatar = function(){
+            this.$flow.on('filesSubmitted', function(){
+                var file = profile.$flow.files[0];
+                if (!!file && allowedTypes.indexOf(file.file.type) === -1){
+                    profile.$flow.cancel();
+                }
+                profile.$flow.off('filesSubmitted');
+            });
+        };
         this.saveAvatar = function(){
+            this.$flow.on('fileSuccess', function(file, response){
+                $timeout(function(){profile.$flow.cancel();}, 800);
+                profile.$flow.off('fileSuccess');
+            });
             this.$flow.upload();
+        };
+        this.cancelAvatar = function(){
+            this.$flow.cancel();
         };
     }]);
     

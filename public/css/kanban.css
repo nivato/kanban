@@ -31,7 +31,14 @@
 .profile-avatar {
 	width: 90px;
     height: 90px;
+}
+
+.profile-avatar, .avatar-progress {
     margin-bottom: 5px;
+}
+
+.avatar-progress {
+    height: 10px;
 }
 
 .pull-left.avatar {

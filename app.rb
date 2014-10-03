@@ -3,6 +3,7 @@ require 'sinatra/activerecord'
 require 'json'
 set :database, 'sqlite3:./db/kanban.db'
 Dir['./models/*.rb'].each {|file| require file}
+require 'securerandom'
 enable :sessions
 set :session_secret, 'cfbe90bbaa81bfd3eb009b8e0d87a1abdee6cf88c0ac91a61476d881634d7295'
 
@@ -77,8 +78,9 @@ end
 post '/api/upload' do
   tempfile = params[:file][:tempfile]
   filename = params[:file][:filename]
-  File.open("public/img/ava/#{params[:file][:filename]}", "w") do |file|
-    file.write(params[:file][:tempfile].read)
+  saved_name = "#{SecureRandom.hex(5)}#{File.extname(filename)}"
+  File.open("public/img/ava/#{saved_name}", 'w') do |file|
+    file.write(tempfile.read)
   end
   return [200, {:status => :ok}.to_json]
 end
