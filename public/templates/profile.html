@@ -1,3 +1,4 @@
+<crop-image-dialog></crop-image-dialog>
 <div class="container">
     <div class="row">
         <h2 class="text-center text-muted">Profile: Nazar Ivato</h2>
@@ -20,6 +21,7 @@
                         </div>
                         <span class="btn btn-default" flow-btn ng-click="profile.changeAvatar()"><span class="glyphicon glyphicon-picture"></span> Change...<input type="file" class="sr-only"></span>
                         <span class="btn btn-default" ng-show="$flow.files.length" ng-click="profile.cancelAvatar()"><span class="glyphicon glyphicon-remove"></span> Cancel</span>
+                        <span class="btn btn-default" ng-show="$flow.files.length" role="button" data-toggle="modal" data-target="#cropImageDialog"><span class="glyphicon icon-target"></span> Crop...</span>
                         <span class="btn btn-primary" ng-show="$flow.files.length" ng-click="profile.saveAvatar()"><span class="glyphicon icon-disk"></span> Save</span>
                     </div>
                 </div>

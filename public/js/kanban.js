@@ -1,6 +1,6 @@
 (function(){
-    var app = angular.module('Kanban', ['ngRoute', 'flow']);
-    
+    var app = angular.module('Kanban', ['ngRoute', 'flow', 'ngImgCrop']);
+
     app.config(['$routeProvider', '$locationProvider', 'flowFactoryProvider', function($routeProvider, $locationProvider, flowFactoryProvider){
         $locationProvider.html5Mode(true);
         $routeProvider
@@ -15,11 +15,11 @@
             .otherwise({templateUrl: '/templates/notfound.html'});
         flowFactoryProvider.defaults = {
             target: '/api/upload',
-            permanentErrors: [404, 500, 501], 
+            permanentErrors: [404, 500, 501],
             testChunks: false
         };
     }]);
-    
+
     app.controller('ApplicationController', ['$scope', '$location', '$http', function($scope, $location, $http){
         var appCtrl = this;
         this.user = {};
@@ -45,7 +45,7 @@
                 }
             });
     }]);
-    
+
     app.controller('RegistrationController', ['$http', '$location', function($http, $location){
         var reg = this;
         this.user = {};
@@ -64,7 +64,7 @@
             $location.path('/welcome');
         };
     }]);
-    
+
     app.controller('NavigationController', ['$scope', '$location', function($scope, $location){
         var navbar = this;
         this.tab = 'none';
@@ -94,7 +94,7 @@
         });
         this.refresh();
     }]);
-    
+
     app.controller('BoardController', ['$scope', '$location', '$http', function($scope, $location, $http){
         var sprint = this;
         this.tickets = [];
@@ -121,7 +121,7 @@
         };
         this.refresh();
     }]);
-    
+
     app.controller('LoginController', ['$scope', '$location', '$http', function($scope, $location, $http){
         var loginForm = this;
         this.user = {};
@@ -144,15 +144,20 @@
             $location.path('/register');
         };
     }]);
-    
+
     app.controller('ProfileController', ['$scope', '$timeout', function($scope, $timeout){
         var profile = this;
+        this.croppedAvatarFileURL = '';
         var allowedTypes = ['image/jpeg', 'image/pjpeg', 'image/png', 'image/gif', 'image/bmp', 'image/x-windows-bmp'];
         this.changeAvatar = function(){
             this.$flow.on('filesSubmitted', function(){
                 var file = profile.$flow.files[0];
-                if (!!file && allowedTypes.indexOf(file.file.type) === -1){
-                    profile.$flow.cancel();
+                if (!!file){
+                    if (allowedTypes.indexOf(file.file.type) === -1){
+                        profile.$flow.cancel();
+                    } else {
+                        profile.avatarFileURL = URL.createObjectURL(file.file);
+                    }
                 }
                 profile.$flow.off('filesSubmitted');
             });
@@ -167,8 +172,11 @@
         this.cancelAvatar = function(){
             this.$flow.cancel();
         };
+        this.displayResult = function(){
+            console.log(this.croppedAvatarFileURL);
+        };
     }]);
-    
+
     app.directive('navigationBar', function(){
         return {
             restrict: 'E',
@@ -177,7 +185,7 @@
             controllerAs: 'nav'
         };
     });
-    
+
     app.directive('loginForm', function(){
         return {
             restrict: 'E',
@@ -186,14 +194,21 @@
             controllerAs: 'lgn'
         };
     });
-    
+
     app.directive('boardTicket', function(){
         return {
             restrict: 'E',
             templateUrl: 'templates/board-ticket.html',
         };
     });
-    
+
+    app.directive('cropImageDialog', function(){
+        return {
+            restrict: 'E',
+            templateUrl: 'templates/crop-image-dialog.html',
+        };
+    });
+
     app.filter('limitStrTo', function() {
         return function(input, limit) {
             input = input || '';
@@ -204,5 +219,5 @@
             return out;
         };
     });
-    
+
 })();

@@ -104,3 +104,10 @@ table th, table td {
 .border {
     border: 1px solid #FF0000;
 }
+
+.crop-area {
+    background: #E4E4E4;
+    overflow: hidden;
+    width:500px;
+    height:350px;
+}
