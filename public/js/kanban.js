@@ -147,16 +147,17 @@
 
     app.controller('ProfileController', ['$scope', '$timeout', function($scope, $timeout){
         var profile = this;
-        this.croppedAvatarFileURL = '';
+        this.croppedAvatarURI = '';
         var allowedTypes = ['image/jpeg', 'image/pjpeg', 'image/png', 'image/gif', 'image/bmp', 'image/x-windows-bmp'];
         this.changeAvatar = function(){
             this.$flow.on('filesSubmitted', function(){
-                var file = profile.$flow.files[0];
-                if (!!file){
-                    if (allowedTypes.indexOf(file.file.type) === -1){
+                URL.revokeObjectURL(profile.avatarFileURL);
+                var flowFile = profile.$flow.files[0];
+                if (!!flowFile){
+                    if (allowedTypes.indexOf(flowFile.file.type) === -1){
                         profile.$flow.cancel();
                     } else {
-                        profile.avatarFileURL = URL.createObjectURL(file.file);
+                        profile.avatarFileURL = URL.createObjectURL(flowFile.file);
                     }
                 }
                 profile.$flow.off('filesSubmitted');
@@ -172,8 +173,23 @@
         this.cancelAvatar = function(){
             this.$flow.cancel();
         };
-        this.displayResult = function(){
-            console.log(this.croppedAvatarFileURL);
+        this.cropAvatar = function(){
+            this.$flow.files[0].file = this.dataURItoFile(this.croppedAvatarURI);
+            $('.thumbnail.profile-avatar').attr('src', this.croppedAvatarURI);
+            $('#cropImageDialog').modal('hide');
+        };
+        this.dataURItoFile = function(dataURI) {
+            var byteString = atob(dataURI.split(',')[1]);
+            var mimeType = dataURI.split(',')[0].split(':')[1].split(';')[0];
+            var buffer = new ArrayBuffer(byteString.length);
+            var byteArray = new Uint8Array(buffer);
+            for (var i = 0; i < byteString.length; i++) {
+                byteArray[i] = byteString.charCodeAt(i);
+            }
+            var file = new Blob([byteArray], {type: mimeType});
+            file.name = 'crop.png';
+            file.lastModifiedDate = new Date();
+            return file;
         };
     }]);
 
