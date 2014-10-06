@@ -31,7 +31,14 @@
 .profile-avatar {
 	width: 90px;
     height: 90px;
+}
+
+.profile-avatar, .avatar-progress {
     margin-bottom: 5px;
+}
+
+.avatar-progress {
+    height: 10px;
 }
 
 .pull-left.avatar {
@@ -96,4 +103,14 @@ table th, table td {
 
 .border {
     border: 1px solid #FF0000;
+}
+
+.crop-area {
+    background: #E4E4E4;
+    overflow: hidden;
+    width: 560px;
+    height: 360px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
 }

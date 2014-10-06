@@ -1,6 +1,6 @@
 (function(){
-    var app = angular.module('Kanban', ['ngRoute', 'flow']);
-    
+    var app = angular.module('Kanban', ['ngRoute', 'flow', 'ngImgCrop']);
+
     app.config(['$routeProvider', '$locationProvider', 'flowFactoryProvider', function($routeProvider, $locationProvider, flowFactoryProvider){
         $locationProvider.html5Mode(true);
         $routeProvider
@@ -15,11 +15,11 @@
             .otherwise({templateUrl: '/templates/notfound.html'});
         flowFactoryProvider.defaults = {
             target: '/api/upload',
-            permanentErrors: [404, 500, 501], 
+            permanentErrors: [404, 500, 501],
             testChunks: false
         };
     }]);
-    
+
     app.controller('ApplicationController', ['$scope', '$location', '$http', function($scope, $location, $http){
         var appCtrl = this;
         this.user = {};
@@ -45,7 +45,7 @@
                 }
             });
     }]);
-    
+
     app.controller('RegistrationController', ['$http', '$location', function($http, $location){
         var reg = this;
         this.user = {};
@@ -64,17 +64,37 @@
             $location.path('/welcome');
         };
     }]);
-    
-    app.controller('NavigationController', function(){
-        this.tab = 'board';
-        this.selectTab = function(setTab){
-            this.tab = setTab;
+
+    app.controller('NavigationController', ['$scope', '$location', function($scope, $location){
+        var navbar = this;
+        this.tab = 'none';
+        this.refresh = function(){
+            switch($location.path()) {
+                case '/':
+                    this.tab = 'board';
+                    break;
+                case '/backlog':
+                    this.tab = 'backlog';
+                    break;
+                case '/sprints':
+                    this.tab = 'sprints';
+                    break;
+                case '/team':
+                    this.tab = 'team';
+                    break;
+                default:
+                    this.tab = 'none';
+            }
         };
         this.isSelceted = function(checkTab){
             return this.tab === checkTab;
         };
-    });
-    
+        $scope.$on('$locationChangeSuccess', function(event, data){
+            navbar.refresh();
+        });
+        this.refresh();
+    }]);
+
     app.controller('BoardController', ['$scope', '$location', '$http', function($scope, $location, $http){
         var sprint = this;
         this.tickets = [];
@@ -101,7 +121,7 @@
         };
         this.refresh();
     }]);
-    
+
     app.controller('LoginController', ['$scope', '$location', '$http', function($scope, $location, $http){
         var loginForm = this;
         this.user = {};
@@ -124,13 +144,55 @@
             $location.path('/register');
         };
     }]);
-    
-    app.controller('ProfileController', ['$scope', function($scope){
+
+    app.controller('ProfileController', ['$scope', '$timeout', function($scope, $timeout){
+        var profile = this;
+        this.croppedAvatarURI = '';
+        var allowedTypes = ['image/jpeg', 'image/pjpeg', 'image/png', 'image/gif', 'image/bmp', 'image/x-windows-bmp'];
+        this.changeAvatar = function(){
+            this.$flow.on('filesSubmitted', function(){
+                URL.revokeObjectURL(profile.avatarFileURL);
+                var flowFile = profile.$flow.files[0];
+                if (!!flowFile){
+                    if (allowedTypes.indexOf(flowFile.file.type) === -1){
+                        profile.$flow.cancel();
+                    } else {
+                        profile.avatarFileURL = URL.createObjectURL(flowFile.file);
+                    }
+                }
+                profile.$flow.off('filesSubmitted');
+            });
+        };
         this.saveAvatar = function(){
+            this.$flow.on('fileSuccess', function(file, response){
+                $timeout(function(){profile.$flow.cancel();}, 800);
+                profile.$flow.off('fileSuccess');
+            });
             this.$flow.upload();
         };
+        this.cancelAvatar = function(){
+            this.$flow.cancel();
+        };
+        this.cropAvatar = function(){
+            this.$flow.files[0].file = this.dataURItoFile(this.croppedAvatarURI);
+            $('.thumbnail.profile-avatar').attr('src', this.croppedAvatarURI);
+            $('#cropImageDialog').modal('hide');
+        };
+        this.dataURItoFile = function(dataURI) {
+            var byteString = atob(dataURI.split(',')[1]);
+            var mimeType = dataURI.split(',')[0].split(':')[1].split(';')[0];
+            var buffer = new ArrayBuffer(byteString.length);
+            var byteArray = new Uint8Array(buffer);
+            for (var i = 0; i < byteString.length; i++) {
+                byteArray[i] = byteString.charCodeAt(i);
+            }
+            var file = new Blob([byteArray], {type: mimeType});
+            file.name = 'crop.png';
+            file.lastModifiedDate = new Date();
+            return file;
+        };
     }]);
-    
+
     app.directive('navigationBar', function(){
         return {
             restrict: 'E',
@@ -139,7 +201,7 @@
             controllerAs: 'nav'
         };
     });
-    
+
     app.directive('loginForm', function(){
         return {
             restrict: 'E',
@@ -148,14 +210,21 @@
             controllerAs: 'lgn'
         };
     });
-    
+
     app.directive('boardTicket', function(){
         return {
             restrict: 'E',
             templateUrl: 'templates/board-ticket.html',
         };
     });
-    
+
+    app.directive('cropImageDialog', function(){
+        return {
+            restrict: 'E',
+            templateUrl: 'templates/crop-image-dialog.html',
+        };
+    });
+
     app.filter('limitStrTo', function() {
         return function(input, limit) {
             input = input || '';
@@ -166,5 +235,5 @@
             return out;
         };
     });
-    
+
 })();
