@@ -158,6 +158,7 @@
                         profile.$flow.cancel();
                     } else {
                         profile.avatarFileURL = URL.createObjectURL(flowFile.file);
+                        $('#cropImageDialog').modal('show');
                     }
                 }
                 profile.$flow.off('filesSubmitted');
