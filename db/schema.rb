@@ -19,6 +19,9 @@ ActiveRecord::Schema.define(version: 20140930121048) do
     t.string   "last_name",       limit: 50
     t.string   "email",                      null: false
     t.string   "picture"
+    t.string   "job_position"
+    t.string   "skype"
+    t.string   "phone"
     t.string   "hashed_password", limit: 65
     t.string   "salt",            limit: 65
     t.datetime "created_at"

@@ -26,6 +26,12 @@
         $scope.$on('user_logged_in', function(event, data){
             appCtrl.user = data;
         });
+        $scope.$on('requesting_user_data', function(event, data){
+            $scope.$broadcast('receive_user_data', appCtrl.user);
+        });
+        $scope.$on('updated_user_data', function(event, data){
+            appCtrl.user = data;
+        });
         this.logout = function(){
             $http.get('/api/logout').success(function(response, status, headers, config){
                 appCtrl.user = {};
@@ -147,8 +153,15 @@
 
     app.controller('ProfileController', ['$scope', '$timeout', function($scope, $timeout){
         var profile = this;
+        this.user = {};
         this.croppedAvatarURI = '';
         var allowedTypes = ['image/jpeg', 'image/pjpeg', 'image/png', 'image/gif', 'image/bmp', 'image/x-windows-bmp'];
+        $scope.$on('receive_user_data', function(event, data){
+            profile.user = data;
+        });
+        this.updateGlobalUser = function(){
+            $scope.$emit('updated_user_data', this.user);
+        };
         this.changeAvatar = function(){
             this.$flow.on('filesSubmitted', function(){
                 URL.revokeObjectURL(profile.avatarFileURL);
@@ -168,6 +181,8 @@
             this.$flow.on('fileSuccess', function(file, response){
                 $timeout(function(){profile.$flow.cancel();}, 800);
                 profile.$flow.off('fileSuccess');
+                profile.user.picture = JSON.parse(response).data;
+                profile.updateGlobalUser();
             });
             this.$flow.upload();
         };
@@ -192,6 +207,14 @@
             file.lastModifiedDate = new Date();
             return file;
         };
+        this.fullName = function(){
+            var fullname = 'Undefined';
+            if (!!this.user.first_name || !!this.user.last_name){
+                fullname = this.user.first_name + ' ' + this.user.last_name;
+            }
+            return fullname;
+        };
+        $scope.$emit('requesting_user_data');
     }]);
 
     app.directive('navigationBar', function(){

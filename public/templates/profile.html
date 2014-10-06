@@ -1,7 +1,7 @@
 <crop-image-dialog></crop-image-dialog>
 <div class="container">
     <div class="row">
-        <h2 class="text-center text-muted">Profile: Nazar Ivato</h2>
+        <h2 class="text-center text-muted">Profile: {{profile.fullName()}}</h2>
     </div>
     <div class="row">
         <div class="col-md-3"></div>
@@ -10,7 +10,7 @@
             <div class="row">
                 <div class="col-md-5 col-sm-5 col-xs-5 text-right"><strong>Avatar</strong></div>
                 <div class="col-md-6 col-sm-6 col-xs-6" flow-init="{singleFile:true}" flow-name="profile.$flow">
-                    <img class="thumbnail profile-avatar" src="img/ava/no_avatar.png" flow-img="$flow.files[0]" />
+                    <img class="thumbnail profile-avatar" ng-src="img/ava/{{profile.user.picture || 'no_avatar.png'}}" flow-img="$flow.files[0]" />
                     <div class="btn-group btn-group-xs">
                         <div ng-repeat="file in $flow.files" class="transfer-box">
                             <div class="progress progress-striped avatar-progress" ng-class="{active:file.isUploading()}">
@@ -28,19 +28,19 @@
             </div>
             <div class="row">
                 <div class="col-md-5 col-sm-5 col-xs-5 text-right"><strong>Username</strong></div>
-                <div class="col-md-6 col-sm-6 col-xs-6"><p>nivato</p></div>
+                <div class="col-md-6 col-sm-6 col-xs-6"><p>{{profile.user.username || ' '}}</p></div>
             </div>
             <div class="row">
                 <div class="col-md-5 col-sm-5 col-xs-5 text-right"><strong>First Name</strong></div>
-                <div class="col-md-6 col-sm-6 col-xs-6"><p>Nazar <span class="btn btn-xs btn-default"><span class="glyphicon glyphicon-pencil"></span></span></p></div>
+                <div class="col-md-6 col-sm-6 col-xs-6"><p>{{profile.user.first_name || ' '}} <span class="btn btn-xs btn-default"><span class="glyphicon glyphicon-pencil"></span></span></p></div>
             </div>
             <div class="row">
                 <div class="col-md-5 col-sm-5 col-xs-5 text-right"><strong>Last Name</strong></div>
-                <div class="col-md-6 col-sm-6 col-xs-6"><p>Ivato <span class="btn btn-xs btn-default"><span class="glyphicon glyphicon-pencil"></span></span></p></div>
+                <div class="col-md-6 col-sm-6 col-xs-6"><p>{{profile.user.last_name || ' '}} <span class="btn btn-xs btn-default"><span class="glyphicon glyphicon-pencil"></span></span></p></div>
             </div>
             <div class="row">
                 <div class="col-md-5 col-sm-5 col-xs-5 text-right"><strong>Job Position</strong></div>
-                <div class="col-md-6 col-sm-6 col-xs-6"><p>Senior Software Developer <span class="btn btn-xs btn-default"><span class="glyphicon glyphicon-pencil"></span></span></p></div>
+                <div class="col-md-6 col-sm-6 col-xs-6"><p>{{profile.user.job_position || ' '}} <span class="btn btn-xs btn-default"><span class="glyphicon glyphicon-pencil"></span></span></p></div>
             </div>
             <div class="row">
                 <div class="col-md-5 col-sm-5 col-xs-5 text-right"><strong>Project Roles</strong></div>
@@ -54,15 +54,15 @@
             </div>
             <div class="row">
                 <div class="col-md-5 col-sm-5 col-xs-5 text-right"><strong>Skype</strong></div>
-                <div class="col-md-6 col-sm-6 col-xs-6"><p><a href="skype:nazar_ivato?chat"><span class="glyphicon icon-skype"></span> nazar_ivato</a> <span class="btn btn-xs btn-default"><span class="glyphicon glyphicon-pencil"></span></span></p></div>
+                <div class="col-md-6 col-sm-6 col-xs-6"><p><a href="skype:{{profile.user.skype}}?chat"><span class="glyphicon icon-skype"></span> {{profile.user.skype}}</a> <span class="btn btn-xs btn-default"><span class="glyphicon glyphicon-pencil"></span></span></p></div>
             </div>
             <div class="row">
                 <div class="col-md-5 col-sm-5 col-xs-5 text-right"><strong>Phone Number</strong></div>
-                <div class="col-md-6 col-sm-6 col-xs-6"><p>+38099874567 <span class="btn btn-xs btn-default"><span class="glyphicon glyphicon-pencil"></span></span></p></div>
+                <div class="col-md-6 col-sm-6 col-xs-6"><p>{{profile.user.phone || ' '}} <span class="btn btn-xs btn-default"><span class="glyphicon glyphicon-pencil"></span></span></p></div>
             </div>
             <div class="row">
                 <div class="col-md-5 col-sm-5 col-xs-5 text-right"><strong>Email</strong></div>
-                <div class="col-md-6 col-sm-6 col-xs-6"><p><a href="mailto:nazarivato@gmail.com"><span class="glyphicon icon-mail"></span> nazarivato@gmail.com</a></p></div>
+                <div class="col-md-6 col-sm-6 col-xs-6"><p><a href="mailto:{{profile.user.email}}"><span class="glyphicon icon-mail"></span> {{profile.user.email}}</a></p></div>
             </div>
             <div class="row">
                 <div class="col-md-5 col-sm-5 col-xs-5 text-right"><strong>Password</strong></div>

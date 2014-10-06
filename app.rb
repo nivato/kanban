@@ -9,9 +9,19 @@ set :session_secret, 'cfbe90bbaa81bfd3eb009b8e0d87a1abdee6cf88c0ac91a61476d88163
 
 helpers do
   def filtered_user(user)
-    {:id => user.id, :username => user.username}
+    {
+      :id => user.id,
+      :username => user.username,
+      :first_name => user.first_name,
+      :last_name => user.last_name,
+      :email => user.email,
+      :picture => user.picture,
+      :job_position => user.job_position,
+      :skype => user.skype,
+      :phone => user.phone
+    }
   end
-  
+
   def model_errors(model)
     model.errors.messages.map{|field, messages| "#{field.to_s.split('_').join(' ').capitalize}: #{messages.map{|message| message.capitalize}.join('. ')}"}
   end
@@ -26,6 +36,7 @@ before '/api/:api' do
       session.clear
       halt 401, {:status => :error, :messages => ['Unauthorized']}.to_json
     end
+    @user = User.find(session[:user_id])
   else
     halt 401, {:status => :error, :messages => ['Unauthorized']}.to_json
   end
@@ -82,7 +93,12 @@ post '/api/upload' do
   File.open("public/img/ava/#{saved_name}", 'w') do |file|
     file.write(tempfile.read)
   end
-  return [200, {:status => :ok}.to_json]
+  @user.picture = saved_name
+  if @user.save
+    return [200, {:status => :ok, :data => @user.picture}.to_json]
+  else
+    return [400, {:status => :error, :messages => model_errors(@user)}.to_json]
+  end
 end
 
 not_found do
