@@ -4,6 +4,7 @@ require 'json'
 set :database, 'sqlite3:./db/kanban.db'
 Dir['./models/*.rb'].each {|file| require file}
 require 'securerandom'
+require 'fileutils'
 enable :sessions
 set :session_secret, 'cfbe90bbaa81bfd3eb009b8e0d87a1abdee6cf88c0ac91a61476d881634d7295'
 
@@ -81,20 +82,23 @@ get '/api/profile' do
   return [200, {:status => :ok, :data => user.attributes.select{|key, value| filter.include? key}}.to_json]
 end
 
+put '/api/profile' do
+  data = JSON.parse request.body.read
+  user = User.find(session[:user_id])
+  data.each{|key, value| user.send("#{key}=", value)}
+  if user.save
+    return [200, {:status => :ok}.to_json]
+  else
+    return [400, {:status => :error, :messages => model_errors(user)}.to_json]
+  end
+end
+
 post '/api/avatar' do
   tempfile = params[:file][:tempfile]
   filename = params[:file][:filename]
   saved_name = "#{SecureRandom.hex(5)}#{File.extname(filename)}"
-  File.open("public/img/ava/#{saved_name}", 'w') do |file|
-    file.write(tempfile.read)
-  end
-  user = User.find(session[:user_id])
-  user.picture = saved_name
-  if user.save
-    return [200, {:status => :ok, :data => user.picture}.to_json]
-  else
-    return [400, {:status => :error, :messages => model_errors(user)}.to_json]
-  end
+  FileUtils.copy(tempfile.path, "public/img/ava/#{saved_name}")
+  return [200, {:status => :ok, :data => saved_name}.to_json]
 end
 
 not_found do

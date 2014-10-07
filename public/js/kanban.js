@@ -157,7 +157,10 @@
             profile.user = data;
         });
         this.syncUserAvatar = function(){
-            $scope.$emit('updated_user_avatar', this.user.picture);
+            $http.put('/api/profile', {picture: this.user.picture})
+                .success(function(response, status, headers, config){
+                    $scope.$emit('updated_user_avatar', profile.user.picture);
+                });
         };
         this.changeAvatar = function(){
             this.$flow.on('filesSubmitted', function(){
@@ -187,19 +190,30 @@
             this.$flow.cancel();
         };
         this.cropAvatar = function(){
-            this.$flow.files[0].file = this.dataURItoFile(this.croppedAvatarURI);
+            var croppedFile = this.dataURItoFile(this.croppedAvatarURI);
+            this.$flow.files[0].file = croppedFile;
+            this.$flow.files[0].size = croppedFile.size;
+            this.$flow.files[0].name = croppedFile.name;
+            this.$flow.files[0].relativePath = croppedFile.name;
+            this.$flow.files[0].bootstrap();
             $('.thumbnail.profile-avatar').attr('src', this.croppedAvatarURI);
             $('#cropImageDialog').modal('hide');
         };
         this.dataURItoFile = function(dataURI) {
-            var byteString = atob(dataURI.split(',')[1]);
+            var base64 = ';base64,';
+            var byteString, file;
             var mimeType = dataURI.split(',')[0].split(':')[1].split(';')[0];
-            var buffer = new ArrayBuffer(byteString.length);
-            var byteArray = new Uint8Array(buffer);
-            for (var i = 0; i < byteString.length; i++) {
-                byteArray[i] = byteString.charCodeAt(i);
+            if (dataURI.indexOf(base64) == -1){
+                byteString = decodeURIComponent(dataURI.split(',')[1]);
+                file = new Blob([byteString], {type: mimeType});
+            } else {
+                byteString = window.atob(dataURI.split(base64)[1]);
+                var byteArray = new Uint8Array(byteString.length);
+                for (var i = 0; i < byteString.length; i++) {
+                    byteArray[i] = byteString.charCodeAt(i);
+                }
+                file = new Blob([byteArray], {type: mimeType});
             }
-            var file = new Blob([byteArray], {type: mimeType});
             file.name = 'crop.png';
             file.lastModifiedDate = new Date();
             return file;
