@@ -9,17 +9,7 @@ set :session_secret, 'cfbe90bbaa81bfd3eb009b8e0d87a1abdee6cf88c0ac91a61476d88163
 
 helpers do
   def filtered_user(user)
-    {
-      :id => user.id,
-      :username => user.username,
-      :first_name => user.first_name,
-      :last_name => user.last_name,
-      :email => user.email,
-      :picture => user.picture,
-      :job_position => user.job_position,
-      :skype => user.skype,
-      :phone => user.phone
-    }
+    {:id => user.id, :username => user.username, :picture => user.picture}
   end
 
   def model_errors(model)
@@ -28,7 +18,7 @@ helpers do
 end
 
 before '/api/:api' do
-  if ['access', 'register', 'login'].include? params[:api]
+  if ['register', 'login'].include? params[:api]
     pass
   end
   if session[:user_id]
@@ -36,7 +26,6 @@ before '/api/:api' do
       session.clear
       halt 401, {:status => :error, :messages => ['Unauthorized']}.to_json
     end
-    @user = User.find(session[:user_id])
   else
     halt 401, {:status => :error, :messages => ['Unauthorized']}.to_json
   end
@@ -86,18 +75,25 @@ get '/api/logout' do
   return [200, {:status => :ok}.to_json]
 end
 
-post '/api/upload' do
+get '/api/profile' do
+  user = User.find(session[:user_id])
+  filter = %w(username first_name last_name email picture job_position skype phone)
+  return [200, {:status => :ok, :data => user.attributes.select{|key, value| filter.include? key}}.to_json]
+end
+
+post '/api/avatar' do
   tempfile = params[:file][:tempfile]
   filename = params[:file][:filename]
   saved_name = "#{SecureRandom.hex(5)}#{File.extname(filename)}"
   File.open("public/img/ava/#{saved_name}", 'w') do |file|
     file.write(tempfile.read)
   end
-  @user.picture = saved_name
-  if @user.save
-    return [200, {:status => :ok, :data => @user.picture}.to_json]
+  user = User.find(session[:user_id])
+  user.picture = saved_name
+  if user.save
+    return [200, {:status => :ok, :data => user.picture}.to_json]
   else
-    return [400, {:status => :error, :messages => model_errors(@user)}.to_json]
+    return [400, {:status => :error, :messages => model_errors(user)}.to_json]
   end
 end
 

@@ -14,7 +14,7 @@
             .when('/register', {templateUrl: '/templates/register.html', controller: 'RegistrationController', controllerAs: 'reg'})
             .otherwise({templateUrl: '/templates/notfound.html'});
         flowFactoryProvider.defaults = {
-            target: '/api/upload',
+            target: '/api/avatar',
             permanentErrors: [404, 500, 501],
             testChunks: false
         };
@@ -26,11 +26,8 @@
         $scope.$on('user_logged_in', function(event, data){
             appCtrl.user = data;
         });
-        $scope.$on('requesting_user_data', function(event, data){
-            $scope.$broadcast('receive_user_data', appCtrl.user);
-        });
-        $scope.$on('updated_user_data', function(event, data){
-            appCtrl.user = data;
+        $scope.$on('updated_user_avatar', function(event, data){
+            appCtrl.user.picture = data;
         });
         this.logout = function(){
             $http.get('/api/logout').success(function(response, status, headers, config){
@@ -151,7 +148,7 @@
         };
     }]);
 
-    app.controller('ProfileController', ['$scope', '$timeout', function($scope, $timeout){
+    app.controller('ProfileController', ['$scope', '$timeout', '$http', function($scope, $timeout, $http){
         var profile = this;
         this.user = {};
         this.croppedAvatarURI = '';
@@ -159,8 +156,8 @@
         $scope.$on('receive_user_data', function(event, data){
             profile.user = data;
         });
-        this.updateGlobalUser = function(){
-            $scope.$emit('updated_user_data', this.user);
+        this.syncUserAvatar = function(){
+            $scope.$emit('updated_user_avatar', this.user.picture);
         };
         this.changeAvatar = function(){
             this.$flow.on('filesSubmitted', function(){
@@ -182,7 +179,7 @@
                 $timeout(function(){profile.$flow.cancel();}, 800);
                 profile.$flow.off('fileSuccess');
                 profile.user.picture = JSON.parse(response).data;
-                profile.updateGlobalUser();
+                profile.syncUserAvatar();
             });
             this.$flow.upload();
         };
@@ -214,7 +211,10 @@
             }
             return fullname;
         };
-        $scope.$emit('requesting_user_data');
+        $http.get('/api/profile')
+            .success(function(response, status, headers, config){
+                profile.user = response.data;
+            });
     }]);
 
     app.directive('navigationBar', function(){
