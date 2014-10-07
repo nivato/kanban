@@ -49,7 +49,7 @@
             });
     }]);
 
-    app.controller('RegistrationController', ['$http', '$location', function($http, $location){
+    app.controller('RegistrationController', ['$scope', '$http', '$location', function($scope, $http, $location){
         var reg = this;
         this.user = {};
         this.messages = [];
@@ -65,6 +65,23 @@
         };
         this.cancelRegistration = function(){
             $location.path('/welcome');
+        };
+        this.checkPasswordConfirmation = function(){
+            var passwordField = $scope.reg_form.reg_password;
+            var confirmationField = $scope.reg_form.reg_confirm_password;
+            if (confirmationField.$error.required){
+                delete confirmationField.$error.match;
+                return;
+            }
+            if (confirmationField.$viewValue === passwordField.$viewValue){
+                confirmationField.$valid = true;
+                confirmationField.$invalid = false;
+                delete confirmationField.$error.match;
+            } else {
+                confirmationField.$valid = false;
+                confirmationField.$invalid = true;
+                confirmationField.$error.match = true;
+            }
         };
     }]);
 
