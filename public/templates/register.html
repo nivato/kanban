@@ -8,31 +8,24 @@
             <form name="reg_form" novalidate class="form-horizontal" role="form" ng-submit="reg_form.$valid && reg.submitRegistration()">
                 <div class="form-divider"></div>
                 <div class="form-group">
-                    <div class="col-md-3"></div>
-                    <div class="col-md-9">
-                        <ul class="text-danger">
-                            <li ng-repeat="message in reg.messages"><small>{{message}}</small></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="form-group">
                     <label for="reg_username" class="control-label col-md-4">Username</label>
                     <div class="col-md-6">
-                        <input type="text" ng-model="reg.user.username" class="form-control" id="reg_username" name="reg_username" placeholder="Enter username" ng-minlength="6" ng-maxlength="25" required>
+                        <input type="text" ng-model="reg.user.username" ng-change="reg.checkUsernameUniqueness()" class="form-control" id="reg_username" name="reg_username" placeholder="Enter username" ng-minlength="6" ng-maxlength="25" required>
                         <div class="text-danger" ng-show="reg_form.reg_username.$dirty && reg_form.reg_username.$invalid">
                             <small ng-show="reg_form.reg_username.$error.required">Username is required</small>
                             <small ng-show="reg_form.reg_username.$error.minlength">Username must be at least 6 characters</small>
                             <small ng-show="reg_form.reg_username.$error.maxlength">Username cannot be longer than 25 characters</small>
+                            <small ng-show="reg_form.reg_username.$error.unique">Username has already been taken</small>
                         </div>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="reg_email" class="control-label col-md-4">Email</label>
                     <div class="col-md-6">
-                        <input type="email" ng-model="reg.user.email" class="form-control" id="reg_email" name="reg_email" placeholder="Enter email" required>
+                        <input type="email" ng-model="reg.user.email" class="form-control" id="reg_email" name="reg_email" placeholder="Enter email" ng-pattern="reg.emailPattern" required>
                         <div class="text-danger" ng-show="reg_form.reg_email.$dirty && reg_form.reg_email.$invalid">
                             <small ng-show="reg_form.reg_email.$error.required">Email is required</small>
-                            <small ng-show="reg_form.reg_email.$error.email">Email must be valid</small>
+                            <small ng-show="reg_form.reg_email.$error.email || reg_form.reg_email.$error.pattern">Email must be valid</small>
                         </div>
                     </div>
                 </div>
@@ -65,7 +58,7 @@
                     <div class="col-md-3">
                     	<div class="input-group">
                     		<span class="input-group-addon btn btn-primary" ng-click="reg.generateCAPTCHA()"><span class="glyphicon glyphicon-refresh"></span></span>
-                        	<input type="text" ng-model="reg.captcha" ng-change="reg.checkCAPTCHA()" class="form-control" id="reg_captcha" name="reg_captcha" placeholder="Code" required>
+                        	<input type="text" ng-model="reg.captcha" ng-change="reg.checkCAPTCHA()" class="form-control" id="reg_captcha" name="reg_captcha" required>
                         </div>
                         <div class="text-danger" ng-show="reg_form.reg_captcha.$dirty && reg_form.reg_captcha.$invalid">
                             <small ng-show="reg_form.reg_captcha.$error.required">CAPTCHA is required</small>

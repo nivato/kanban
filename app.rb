@@ -14,7 +14,12 @@ helpers do
   end
 
   def model_errors(model)
-    model.errors.messages.map{|field, messages| "#{field.to_s.split('_').join(' ').capitalize}: #{messages.map{|message| message.capitalize}.join('. ')}"}
+    errors = model.errors.messages
+    converted_errors = {}
+    errors.each do |field, messages|
+      converted_errors[field] = "#{field.to_s.split('_').join(' ').capitalize}: #{messages.map{|message| message.capitalize}.join('. ')}"
+    end
+    return converted_errors
   end
 end
 

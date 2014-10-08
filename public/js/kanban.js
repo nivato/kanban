@@ -52,41 +52,49 @@
     app.controller('RegistrationController', ['$scope', '$http', '$location', function($scope, $http, $location){
         var reg = this;
         this.user = {};
-        this.messages = [];
         this.generatedCaptcha = '';
+        this.alreadyTakenUsernames = [];
+        this.emailPattern = /^([A-Z0-9\-_]+\.?[A-Z0-9\-_]+)+@([A-Z0-9\-_]+\.?[A-Z0-9\-_]+)+\.[a-z]{2,4}$/i;
         this.submitRegistration = function(){
-            this.messages = [];
-            if (!this.checkPasswordConfirmation() | !this.checkCAPTCHA()){
-                return;
-            }
             $http.post('/api/register', this.user)
                 .success(function(response, status, headers, config){
                     $location.path('/welcome');
                 })
                 .error(function(response, status, headers, config){
-                    reg.messages = response.messages;
+                    if (!!response.messages.username && response.messages.username.indexOf('already been taken') !== -1){
+                        reg.alreadyTakenUsernames.push(reg.user.username);
+                        reg.checkUsernameUniqueness();
+                    } 
+                    reg.generateCAPTCHA();
+                    reg.captcha = '';
                 });
         };
         this.cancelRegistration = function(){
             $location.path('/welcome');
         };
+        this.checkUsernameUniqueness = function(){
+            var usernameField = $scope.reg_form.reg_username;
+            if (usernameField.$error.required || usernameField.$error.minlength || usernameField.$error.maxlength){
+                usernameField.$setValidity('unique', true);
+                return;
+            }
+            if (this.alreadyTakenUsernames.indexOf(usernameField.$viewValue) === -1){
+                usernameField.$setValidity('unique', true);
+            } else {
+                usernameField.$setValidity('unique', false);
+            }
+        };
         this.checkPasswordConfirmation = function(){
             var passwordField = $scope.reg_form.reg_password;
             var confirmationField = $scope.reg_form.reg_confirm_password;
             if (confirmationField.$error.required){
-                delete confirmationField.$error.match;
+                confirmationField.$setValidity('match', true);
                 return;
             }
             if (confirmationField.$viewValue === passwordField.$viewValue){
-                confirmationField.$valid = true;
-                confirmationField.$invalid = false;
-                delete confirmationField.$error.match;
-                return true;
+                confirmationField.$setValidity('match', true);
             } else {
-                confirmationField.$valid = false;
-                confirmationField.$invalid = true;
-                confirmationField.$error.match = true;
-                return false;
+                confirmationField.$setValidity('match', false);
             }
         };
         this.generateCAPTCHA = function(){
@@ -109,19 +117,13 @@
         this.checkCAPTCHA = function(){
             var captchaField = $scope.reg_form.reg_captcha;
             if (captchaField.$error.required){
-                delete captchaField.$error.captcha;
+                captchaField.$setValidity('captcha', true);
                 return;
             }
             if (captchaField.$viewValue === this.generatedCaptcha){
-                captchaField.$valid = true;
-                captchaField.$invalid = false;
-                delete captchaField.$error.captcha;
-                return true;
+                captchaField.$setValidity('captcha', true);
             } else {
-                captchaField.$valid = false;
-                captchaField.$invalid = true;
-                captchaField.$error.captcha = true;
-                return false;
+                captchaField.$setValidity('captcha', false);
             }
         };
         this.generateCAPTCHA();
