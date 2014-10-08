@@ -18,7 +18,7 @@
                 <div class="form-group">
                     <label for="reg_username" class="control-label col-md-4">Username</label>
                     <div class="col-md-6">
-                        <input type="text" ng-model="reg.user.username" class="form-control" name="reg_username" placeholder="Enter username" ng-minlength="6" ng-maxlength="25" required>
+                        <input type="text" ng-model="reg.user.username" class="form-control" id="reg_username" name="reg_username" placeholder="Enter username" ng-minlength="6" ng-maxlength="25" required>
                         <div class="text-danger" ng-show="reg_form.reg_username.$dirty && reg_form.reg_username.$invalid">
                             <small ng-show="reg_form.reg_username.$error.required">Username is required</small>
                             <small ng-show="reg_form.reg_username.$error.minlength">Username must be at least 6 characters</small>
@@ -29,7 +29,7 @@
                 <div class="form-group">
                     <label for="reg_email" class="control-label col-md-4">Email</label>
                     <div class="col-md-6">
-                        <input type="email" ng-model="reg.user.email" class="form-control" name="reg_email" placeholder="Enter email" required>
+                        <input type="email" ng-model="reg.user.email" class="form-control" id="reg_email" name="reg_email" placeholder="Enter email" required>
                         <div class="text-danger" ng-show="reg_form.reg_email.$dirty && reg_form.reg_email.$invalid">
                             <small ng-show="reg_form.reg_email.$error.required">Email is required</small>
                             <small ng-show="reg_form.reg_email.$error.email">Email must be valid</small>
@@ -39,7 +39,7 @@
                 <div class="form-group">
                     <label for="reg_password" class="control-label col-md-4">Password</label>
                     <div class="col-md-6">
-                        <input type="password" ng-model="reg.user.password" class="form-control" name="reg_password" placeholder="Enter password" ng-minlength="8" ng-maxlength="25" required>
+                        <input type="password" ng-model="reg.user.password" class="form-control" id="reg_password" name="reg_password" placeholder="Enter password" ng-minlength="8" ng-maxlength="25" required>
                         <div class="text-danger" ng-show="reg_form.reg_password.$dirty && reg_form.reg_password.$invalid">
                             <small ng-show="reg_form.reg_password.$error.required">Password is required</small>
                             <small ng-show="reg_form.reg_password.$error.minlength">Password must be at least 8 characters</small>
@@ -50,10 +50,26 @@
                 <div class="form-group">
                     <label for="reg_confirm_password" class="control-label col-md-4">Confirm password</label>
                     <div class="col-md-6">
-                        <input type="password" ng-model="reg.user.password_confirmation" ng-change="reg.checkPasswordConfirmation()" class="form-control" name="reg_confirm_password" placeholder="Re-enter password" required>
+                        <input type="password" ng-model="reg.user.password_confirmation" ng-change="reg.checkPasswordConfirmation()" class="form-control" id="reg_confirm_password" name="reg_confirm_password" placeholder="Re-enter password" required>
                         <div class="text-danger" ng-show="reg_form.reg_confirm_password.$dirty && reg_form.reg_confirm_password.$invalid">
                             <small ng-show="reg_form.reg_confirm_password.$error.required">Password Confirmation is required</small>
                             <small ng-show="reg_form.reg_confirm_password.$error.match">Must match the Password</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="reg_captcha" class="control-label col-md-4">Security check</label>
+                    <div class="col-md-3">
+                    	<canvas id="captcha" width="120" height="35" class="captcha"></canvas>
+                   	</div>
+                    <div class="col-md-3">
+                    	<div class="input-group">
+                    		<span class="input-group-addon btn btn-primary" ng-click="reg.generateCAPTCHA()"><span class="glyphicon glyphicon-refresh"></span></span>
+                        	<input type="text" ng-model="reg.captcha" ng-change="reg.checkCAPTCHA()" class="form-control" id="reg_captcha" name="reg_captcha" placeholder="Code" required>
+                        </div>
+                        <div class="text-danger" ng-show="reg_form.reg_captcha.$dirty && reg_form.reg_captcha.$invalid">
+                            <small ng-show="reg_form.reg_captcha.$error.required">CAPTCHA is required</small>
+                            <small ng-show="reg_form.reg_captcha.$error.captcha">Invalid CAPTCHA</small>
                         </div>
                     </div>
                 </div>

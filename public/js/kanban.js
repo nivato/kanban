@@ -53,8 +53,12 @@
         var reg = this;
         this.user = {};
         this.messages = [];
+        this.generatedCaptcha = '';
         this.submitRegistration = function(){
             this.messages = [];
+            if (!this.checkPasswordConfirmation() | !this.checkCAPTCHA()){
+                return;
+            }
             $http.post('/api/register', this.user)
                 .success(function(response, status, headers, config){
                     $location.path('/welcome');
@@ -77,12 +81,50 @@
                 confirmationField.$valid = true;
                 confirmationField.$invalid = false;
                 delete confirmationField.$error.match;
+                return true;
             } else {
                 confirmationField.$valid = false;
                 confirmationField.$invalid = true;
                 confirmationField.$error.match = true;
+                return false;
             }
         };
+        this.generateCAPTCHA = function(){
+            var hexDigits = '0123456789abcdef';
+            this.generatedCaptcha = '';
+            for (var i = 0; i < 6; i++){
+                this.generatedCaptcha += hexDigits[Math.floor((Math.random() * 16))];
+            }
+            var canvas = $('#captcha')[0];
+            var context = canvas.getContext('2d');
+            context.setTransform(1, 0, 0, 1, 0, 0);
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            var sx = -2;
+            var sy = 0.15;
+            context.transform(1, sy, sx, 1, 0, 0);
+            context.font = 'bold 25px sans-serif';
+            context.fillStyle = '#bcbcbc';
+            context.fillText(this.generatedCaptcha, 35, 15);
+        };
+        this.checkCAPTCHA = function(){
+            var captchaField = $scope.reg_form.reg_captcha;
+            if (captchaField.$error.required){
+                delete captchaField.$error.captcha;
+                return;
+            }
+            if (captchaField.$viewValue === this.generatedCaptcha){
+                captchaField.$valid = true;
+                captchaField.$invalid = false;
+                delete captchaField.$error.captcha;
+                return true;
+            } else {
+                captchaField.$valid = false;
+                captchaField.$invalid = true;
+                captchaField.$error.captcha = true;
+                return false;
+            }
+        };
+        this.generateCAPTCHA();
     }]);
 
     app.controller('NavigationController', ['$scope', '$location', function($scope, $location){
