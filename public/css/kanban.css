@@ -1,22 +1,22 @@
 @font-face {
-	font-family: 'Kanban Icon';
-	src:url('../fonts/kanban-icon.eot?96eol0');
-	src:url('../fonts/kanban-icon.eot?#iefix96eol0') format('embedded-opentype'),
-		url('../fonts/kanban-icon.woff?96eol0') format('woff'),
-		url('../fonts/kanban-icon.ttf?96eol0') format('truetype'),
-		url('../fonts/kanban-icon.svg?96eol0#icomoon') format('svg');
+    font-family: 'Kanban Icon';
+    src:url('../fonts/kanban-icon.eot?96eol0');
+    src:url('../fonts/kanban-icon.eot?#iefix96eol0') format('embedded-opentype'),
+        url('../fonts/kanban-icon.woff?96eol0') format('woff'),
+        url('../fonts/kanban-icon.ttf?96eol0') format('truetype'),
+        url('../fonts/kanban-icon.svg?96eol0#icomoon') format('svg');
 }
 
 .kanban-icon {
-	font-family: 'Kanban Icon';
+    font-family: 'Kanban Icon';
 }
 
 .kanban-icon:before {
-	content: "\e600";
+    content: "\e600";
 }
 
 .logo {
-	font-size: 200px;
+    font-size: 200px;
 }
 
 .dropdown-toggle.avatar {
@@ -29,7 +29,7 @@
 }
 
 .profile-avatar {
-	width: 90px;
+    width: 90px;
     height: 90px;
 }
 
@@ -116,16 +116,22 @@ table th, table td {
 }
 
 .captcha {
-	display: block;
-	width: 120px;
-	height: 35px;
-	margin: 0px;
-	border: 2px dotted #c5c5c5;
-	-webkit-border-radius: 4px;
+    display: block;
+    width: 120px;
+    height: 35px;
+    margin: 0px;
+    border: 2px dotted #c5c5c5;
+    -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     border-radius: 4px;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
-    
+}
+
+.alert {
+    padding: 5px 35px 5px 15px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
 }

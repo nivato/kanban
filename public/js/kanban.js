@@ -20,14 +20,40 @@
         };
     }]);
 
-    app.controller('ApplicationController', ['$scope', '$location', '$http', function($scope, $location, $http){
+    app.controller('ApplicationController', ['$scope', '$location', '$http', '$timeout', function($scope, $location, $http, $timeout){
         var appCtrl = this;
         this.user = {};
+        this.alert = {};
         $scope.$on('user_logged_in', function(event, data){
             appCtrl.user = data;
         });
         $scope.$on('updated_user_avatar', function(event, data){
             appCtrl.user.picture = data;
+        });
+        $scope.$on('alert', function(event, data){
+            switch(data.type) {
+                case 'success':
+                    data.css = 'alert-success';
+                    break;
+                case 'info':
+                    data.css = 'alert-info';
+                    break;
+                case 'warning':
+                    data.css = 'alert-warning';
+                    break;
+                case 'error':
+                    data.css = 'alert-danger';
+                    break;
+                default:
+                    data.css = 'alert-info';
+            }
+            appCtrl.alert = data;
+            if (data.type !== 'error' && data.type !== 'warning'){
+                $timeout(function(){appCtrl.alert = {};}, 6000);
+            }
+        });
+        $scope.$on('dismiss_alert', function(event, data){
+            appCtrl.alert = {};
         });
         this.logout = function(){
             $http.get('/api/logout').success(function(response, status, headers, config){
@@ -55,9 +81,11 @@
         this.generatedCaptcha = '';
         this.alreadyTakenUsernames = [];
         this.emailPattern = /^([A-Z0-9\-_]+\.?[A-Z0-9\-_]+)+@([A-Z0-9\-_]+\.?[A-Z0-9\-_]+)+\.[a-z]{2,4}$/i;
+        this.usernamePattern = /^[A-Z0-9_-]+$/i;
         this.submitRegistration = function(){
             $http.post('/api/register', this.user)
                 .success(function(response, status, headers, config){
+                    $scope.$emit('alert', {type: 'congratulations', message: 'You have successfully registered. Now you can Log-in to Kanban.'});
                     $location.path('/welcome');
                 })
                 .error(function(response, status, headers, config){
@@ -300,7 +328,14 @@
             controllerAs: 'nav'
         };
     });
-
+    
+    app.directive('alert', function(){
+        return {
+            restrict: 'E',
+            templateUrl: '/templates/alert.html'
+        };
+    });
+    
     app.directive('loginForm', function(){
         return {
             restrict: 'E',
@@ -332,6 +367,16 @@
                 out = input.substring(0, limit) + '...';
             }
             return out;
+        };
+    });
+
+    app.filter('capitalize', function() {
+        return function(input, all) {
+            if (!!all){
+                return (!!input) ? input.replace(/([^\W_]+[^\s-]*) */g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();}) : '';
+            } else {
+                return (!!input) ? input.charAt(0).toUpperCase() + input.substr(1) : '';
+            }
         };
     });
 

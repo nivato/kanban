@@ -10,12 +10,13 @@
                 <div class="form-group">
                     <label for="reg_username" class="control-label col-md-4">Username</label>
                     <div class="col-md-6">
-                        <input type="text" ng-model="reg.user.username" ng-change="reg.checkUsernameUniqueness()" class="form-control" id="reg_username" name="reg_username" placeholder="Enter username" ng-minlength="6" ng-maxlength="25" required>
+                        <input type="text" ng-model="reg.user.username" ng-change="reg.checkUsernameUniqueness()" class="form-control" id="reg_username" name="reg_username" placeholder="Enter username" ng-pattern="reg.usernamePattern" ng-minlength="6" ng-maxlength="25" required>
                         <div class="text-danger" ng-show="reg_form.reg_username.$dirty && reg_form.reg_username.$invalid">
                             <small ng-show="reg_form.reg_username.$error.required">Username is required</small>
                             <small ng-show="reg_form.reg_username.$error.minlength">Username must be at least 6 characters</small>
                             <small ng-show="reg_form.reg_username.$error.maxlength">Username cannot be longer than 25 characters</small>
                             <small ng-show="reg_form.reg_username.$error.unique">Username has already been taken</small>
+                            <small ng-show="reg_form.reg_username.$error.pattern">Only letters, digits, &quot;-&quot; and &quot;_&quot; characters allowed</small>
                         </div>
                     </div>
                 </div>

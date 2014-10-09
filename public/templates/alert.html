@@ -1,0 +1,10 @@
+<div class="container" ng-show="app.alert.type">
+	<div class="row">
+		<div class="col-md-1"></div>
+		<div class="alert {{app.alert.css}} alert-dismissible" role="alert">
+			<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+			<strong>{{app.alert.type | capitalize}}!</strong> {{app.alert.message}}
+		</div>
+		<div class="col-md-1"></div>
+	<div class="row">
+</div>
