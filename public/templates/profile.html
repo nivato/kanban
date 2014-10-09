@@ -28,11 +28,20 @@
             </div>
             <div class="row">
                 <div class="col-md-5 col-sm-5 col-xs-5 text-right"><strong>Username</strong></div>
-                <div class="col-md-6 col-sm-6 col-xs-6"><p>{{profile.user.username || ' '}}</p></div>
+                <div class="col-md-6 col-sm-6 col-xs-6"><p>{{profile.user.username}}</p></div>
             </div>
             <div class="row">
                 <div class="col-md-5 col-sm-5 col-xs-5 text-right"><strong>First Name</strong></div>
-                <div class="col-md-6 col-sm-6 col-xs-6"><p>{{profile.user.first_name || ' '}} <span class="btn btn-xs btn-default"><span class="glyphicon glyphicon-pencil"></span></span></p></div>
+                <div class="col-md-6 col-sm-6 col-xs-6">
+                    <div class="form-inline" ng-show="profile.edit.first_name">
+                        <input type="text" ng-model="profile.user.first_name" class="form-control input-sm">
+                        <div class="btn-group btn-group-sm">
+                            <button type="button" class="btn btn-default" ng-click="profile.edit.first_name = false"><span class="glyphicon glyphicon-remove"></span></button>
+                            <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon icon-disk"></span></button>
+                        </div>
+                    </div>
+                    <p ng-hide="profile.edit.first_name">{{profile.user.first_name}} <span class="btn btn-xs btn-default" ng-click="profile.edit.first_name = true"><span class="glyphicon glyphicon-pencil"></span></span></p>
+                </div>
             </div>
             <div class="row">
                 <div class="col-md-5 col-sm-5 col-xs-5 text-right"><strong>Last Name</strong></div>

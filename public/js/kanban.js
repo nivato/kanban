@@ -241,6 +241,7 @@
         var profile = this;
         this.user = {};
         this.croppedAvatarURI = '';
+        this.edit = {};
         var allowedTypes = ['image/jpeg', 'image/pjpeg', 'image/png', 'image/gif', 'image/bmp', 'image/x-windows-bmp'];
         $scope.$on('receive_user_data', function(event, data){
             profile.user = data;
