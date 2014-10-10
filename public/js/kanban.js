@@ -48,12 +48,9 @@
                     data.css = 'alert-info';
             }
             appCtrl.alert = data;
-            if (data.type !== 'error' && data.type !== 'warning'){
+            if (data.type !== 'error'){
                 $timeout(function(){appCtrl.alert = {};}, 6000);
             }
-        });
-        $scope.$on('dismiss_alert', function(event, data){
-            appCtrl.alert = {};
         });
         this.logout = function(){
             $http.get('/api/logout').success(function(response, status, headers, config){
@@ -243,9 +240,20 @@
         this.croppedAvatarURI = '';
         this.edit = {};
         var allowedTypes = ['image/jpeg', 'image/pjpeg', 'image/png', 'image/gif', 'image/bmp', 'image/x-windows-bmp'];
-        $scope.$on('receive_user_data', function(event, data){
-            profile.user = data;
-        });
+        this.editField = function(fieldName){
+            this.edit[fieldName] = {editable: true, previous: this.user[fieldName]};
+        };
+        this.saveField = function(fieldName){
+            var data = {};
+            data[fieldName] = this.user[fieldName];
+            $http.put('/api/profile', data)
+                .success(function(response, status, headers, config){
+                    $scope.$emit('alert', {type: 'info', message: fieldName + ' field successfully saved.'});
+                })
+                .error(function(response, status, headers, config){
+                    $scope.$emit('alert', {type: 'error', message: 'Failed to save ' + fieldName + ' field.'});
+                });
+        };
         this.syncUserAvatar = function(){
             $http.put('/api/profile', {picture: this.user.picture})
                 .success(function(response, status, headers, config){
@@ -309,18 +317,41 @@
             return file;
         };
         this.fullName = function(){
-            var fullname = 'Undefined';
-            if (!!this.user.first_name || !!this.user.last_name){
-                fullname = this.user.first_name + ' ' + this.user.last_name;
-            }
-            return fullname;
+            return (this.user.first_name || '') + ' ' + (this.user.last_name || '');
         };
         $http.get('/api/profile')
             .success(function(response, status, headers, config){
                 profile.user = response.data;
             });
     }]);
-
+    
+    app.controller('ProfileEditController', function(){
+        this.field = '';
+        this.profile = {};
+        this.saveOnEnter = function(keyEvent){
+            if (keyEvent.charCode === 13 || keyEvent.keyCode === 13 || keyEvent.which === 13){
+                this.save();
+            }
+        };
+        this.save = function(){
+            this.profile.saveField(this.field);
+            this.profile.edit[this.field].editable = false;
+        };
+        this.cancel = function(){
+            this.profile.user[this.field] = this.profile.edit[this.field].previous;
+            this.profile.edit[this.field].editable = false;
+        };
+    });
+    
+    app.directive('profileEdit', function(){
+        return {
+            restrict: 'E',
+            templateUrl: '/templates/profile-edit.html',
+            controller: 'ProfileEditController',
+            controllerAs: 'edit'
+        };
+    });
+    
     app.directive('navigationBar', function(){
         return {
             restrict: 'E',

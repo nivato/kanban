@@ -89,6 +89,8 @@ end
 
 put '/api/profile' do
   data = JSON.parse request.body.read
+  filter = %w(username first_name last_name email picture job_position skype phone)
+  data.delete_if{|key, value| !filter.include? key}
   user = User.find(session[:user_id])
   data.each{|key, value| user.send("#{key}=", value)}
   if user.save
