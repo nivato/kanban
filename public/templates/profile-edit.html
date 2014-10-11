@@ -1,7 +1,0 @@
-<div class="form-inline" ng-init="edit.profile = profile" ng-show="profile.edit[edit.field].editable">
-    <input type="text" ng-model="profile.user[edit.field]" class="form-control input-sm" ng-keypress="edit.saveOnEnter($event)">
-    <div class="btn-group btn-group-sm">
-        <button type="button" class="btn btn-default" ng-click="edit.cancel()"><span class="glyphicon glyphicon-remove"></span></button>
-        <button type="button" class="btn btn-primary" ng-click="edit.save()"><span class="glyphicon glyphicon icon-disk"></span></button>
-    </div>
-</div>

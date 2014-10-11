@@ -1,7 +1,7 @@
 (function(){
     var app = angular.module('Kanban', ['ngRoute', 'flow', 'ngImgCrop']);
 
-    app.config(['$routeProvider', '$locationProvider', 'flowFactoryProvider', function($routeProvider, $locationProvider, flowFactoryProvider){
+    app.config(['$routeProvider', '$locationProvider', 'flowFactoryProvider', '$compileProvider', function($routeProvider, $locationProvider, flowFactoryProvider, $compileProvider){
         $locationProvider.html5Mode(true);
         $routeProvider
             .when('/', {templateUrl: '/templates/board.html', controller: 'BoardController', controllerAs: 'sprint'})
@@ -13,6 +13,7 @@
             .when('/welcome', {templateUrl: '/templates/welcome.html'})
             .when('/register', {templateUrl: '/templates/register.html', controller: 'RegistrationController', controllerAs: 'reg'})
             .otherwise({templateUrl: '/templates/notfound.html'});
+        $compileProvider.aHrefSanitizationWhitelist(/^\s*(http|https|mailto|skype|tel):/);
         flowFactoryProvider.defaults = {
             target: '/api/avatar',
             permanentErrors: [404, 500, 501],
@@ -89,7 +90,7 @@
                     if (!!response.messages.username && response.messages.username.indexOf('already been taken') !== -1){
                         reg.alreadyTakenUsernames.push(reg.user.username);
                         reg.checkUsernameUniqueness();
-                    } 
+                    }
                     reg.generateCAPTCHA();
                     reg.captcha = '';
                 });
@@ -238,12 +239,24 @@
         var profile = this;
         this.user = {};
         this.croppedAvatarURI = '';
-        this.edit = {};
+        this.editable = {};
         var allowedTypes = ['image/jpeg', 'image/pjpeg', 'image/png', 'image/gif', 'image/bmp', 'image/x-windows-bmp'];
-        this.editField = function(fieldName){
-            this.edit[fieldName] = {editable: true, previous: this.user[fieldName]};
+        this.isEditable = function(fieldName){
+            return this.editable.field === fieldName;
         };
-        this.saveField = function(fieldName){
+        this.editField = function(fieldName){
+            this.cancelEdit(this.editable.field);
+            this.editable.field = fieldName;
+            this.editable.previousValue = this.user[fieldName];
+        };
+        this.cancelEdit = function(fieldName){
+            this.editable.field = '';
+            this.user[fieldName] = this.editable.previousValue;
+            this.editable.previousValue = '';
+        };
+        this.saveEdit = function(fieldName){
+            this.editable.field = '';
+            this.editable.previousValue = '';
             var data = {};
             data[fieldName] = this.user[fieldName];
             $http.put('/api/profile', data)
@@ -253,6 +266,11 @@
                 .error(function(response, status, headers, config){
                     $scope.$emit('alert', {type: 'error', message: 'Failed to save ' + fieldName + ' field.'});
                 });
+        };
+        this.saveEditOnEnter = function(keyEvent, fieldName){
+            if (keyEvent.charCode === 13 || keyEvent.keyCode === 13 || keyEvent.which === 13){
+                this.saveEdit(fieldName);
+            }
         };
         this.syncUserAvatar = function(){
             $http.put('/api/profile', {picture: this.user.picture})
@@ -324,34 +342,7 @@
                 profile.user = response.data;
             });
     }]);
-    
-    app.controller('ProfileEditController', function(){
-        this.field = '';
-        this.profile = {};
-        this.saveOnEnter = function(keyEvent){
-            if (keyEvent.charCode === 13 || keyEvent.keyCode === 13 || keyEvent.which === 13){
-                this.save();
-            }
-        };
-        this.save = function(){
-            this.profile.saveField(this.field);
-            this.profile.edit[this.field].editable = false;
-        };
-        this.cancel = function(){
-            this.profile.user[this.field] = this.profile.edit[this.field].previous;
-            this.profile.edit[this.field].editable = false;
-        };
-    });
-    
-    app.directive('profileEdit', function(){
-        return {
-            restrict: 'E',
-            templateUrl: '/templates/profile-edit.html',
-            controller: 'ProfileEditController',
-            controllerAs: 'edit'
-        };
-    });
-    
+
     app.directive('navigationBar', function(){
         return {
             restrict: 'E',
@@ -360,14 +351,14 @@
             controllerAs: 'nav'
         };
     });
-    
+
     app.directive('alert', function(){
         return {
             restrict: 'E',
             templateUrl: '/templates/alert.html'
         };
     });
-    
+
     app.directive('loginForm', function(){
         return {
             restrict: 'E',

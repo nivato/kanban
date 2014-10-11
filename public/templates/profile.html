@@ -33,24 +33,47 @@
             <div class="row">
                 <div class="col-md-5 col-sm-5 col-xs-5 text-right"><strong>First Name</strong></div>
                 <div class="col-md-6 col-sm-6 col-xs-6">
-                    <profile-edit ng-init="edit.field='first_name'"></profile-edit>
-                    <p ng-hide="profile.edit.first_name.editable">{{profile.user.first_name}}
-                        <span class="btn btn-xs btn-default" ng-click="profile.editField('first_name')"><span class="glyphicon glyphicon-pencil"></span></span>
+                    <div class="form-inline" ng-show="profile.isEditable('first_name')">
+                        <input type="text" ng-model="profile.user.first_name" class="form-control input-sm" ng-keypress="profile.saveEditOnEnter($event, 'first_name')">
+                        <div class="btn-group btn-group-sm">
+                            <button type="button" class="btn btn-default" ng-click="profile.cancelEdit('first_name')"><span class="glyphicon glyphicon-remove"></span></button>
+                            <button type="button" class="btn btn-primary" ng-click="profile.saveEdit('first_name')"><span class="glyphicon glyphicon icon-disk"></span></button>
+                        </div>
+                    </div>
+                    <p ng-hide="profile.isEditable('first_name')">{{profile.user.first_name}}
+                        <span class="btn btn-xs btn-default" ng-click="profile.editField('first_name')"><span class="glyphicon glyphicon-pencil text-muted"></span></span>
                     </p>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-5 col-sm-5 col-xs-5 text-right"><strong>Last Name</strong></div>
                 <div class="col-md-6 col-sm-6 col-xs-6">
-                    <profile-edit ng-init="edit.field='last_name'"></profile-edit>
-                    <p ng-hide="profile.edit.last_name.editable">{{profile.user.last_name}}
-                        <span class="btn btn-xs btn-default" ng-click="profile.editField('last_name')"><span class="glyphicon glyphicon-pencil"></span></span>
+                    <div class="form-inline" ng-show="profile.isEditable('last_name')">
+                        <input type="text" ng-model="profile.user.last_name" class="form-control input-sm" ng-keypress="profile.saveEditOnEnter($event, 'last_name')">
+                        <div class="btn-group btn-group-sm">
+                            <button type="button" class="btn btn-default" ng-click="profile.cancelEdit('last_name')"><span class="glyphicon glyphicon-remove"></span></button>
+                            <button type="button" class="btn btn-primary" ng-click="profile.saveEdit('last_name')"><span class="glyphicon glyphicon icon-disk"></span></button>
+                        </div>
+                    </div>
+                    <p ng-hide="profile.isEditable('last_name')">{{profile.user.last_name}}
+                        <span class="btn btn-xs btn-default" ng-click="profile.editField('last_name')"><span class="glyphicon glyphicon-pencil text-muted"></span></span>
                     </p>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-5 col-sm-5 col-xs-5 text-right"><strong>Job Position</strong></div>
-                <div class="col-md-6 col-sm-6 col-xs-6"><p>{{profile.user.job_position || ' '}} <span class="btn btn-xs btn-default"><span class="glyphicon glyphicon-pencil"></span></span></p></div>
+                <div class="col-md-6 col-sm-6 col-xs-6">
+                    <div class="form-inline" ng-show="profile.isEditable('job_position')">
+                        <input type="text" ng-model="profile.user.job_position" class="form-control input-sm" ng-keypress="profile.saveEditOnEnter($event, 'job_position')">
+                        <div class="btn-group btn-group-sm">
+                            <button type="button" class="btn btn-default" ng-click="profile.cancelEdit('job_position')"><span class="glyphicon glyphicon-remove"></span></button>
+                            <button type="button" class="btn btn-primary" ng-click="profile.saveEdit('job_position')"><span class="glyphicon glyphicon icon-disk"></span></button>
+                        </div>
+                    </div>
+                    <p ng-hide="profile.isEditable('job_position')">{{profile.user.job_position}}
+                        <span class="btn btn-xs btn-default" ng-click="profile.editField('job_position')"><span class="glyphicon glyphicon-pencil text-muted"></span></span>
+                    </p>
+                </div>
             </div>
             <div class="row">
                 <div class="col-md-5 col-sm-5 col-xs-5 text-right"><strong>Project Roles</strong></div>
@@ -64,11 +87,33 @@
             </div>
             <div class="row">
                 <div class="col-md-5 col-sm-5 col-xs-5 text-right"><strong>Skype</strong></div>
-                <div class="col-md-6 col-sm-6 col-xs-6"><p><a href="skype:{{profile.user.skype}}?chat"><span class="glyphicon icon-skype"></span> {{profile.user.skype}}</a> <span class="btn btn-xs btn-default"><span class="glyphicon glyphicon-pencil"></span></span></p></div>
+                <div class="col-md-6 col-sm-6 col-xs-6">
+                    <div class="form-inline" ng-show="profile.isEditable('skype')">
+                        <input type="text" ng-model="profile.user.skype" class="form-control input-sm" ng-keypress="profile.saveEditOnEnter($event, 'skype')">
+                        <div class="btn-group btn-group-sm">
+                            <button type="button" class="btn btn-default" ng-click="profile.cancelEdit('skype')"><span class="glyphicon glyphicon-remove"></span></button>
+                            <button type="button" class="btn btn-primary" ng-click="profile.saveEdit('skype')"><span class="glyphicon glyphicon icon-disk"></span></button>
+                        </div>
+                    </div>
+                    <p ng-hide="profile.isEditable('skype')"><a href="skype:{{profile.user.skype}}?chat" ng-show="profile.user.skype"><span class="glyphicon icon-skype"></span> {{profile.user.skype}}</a>
+                        <span class="btn btn-xs btn-default" ng-click="profile.editField('skype')"><span class="glyphicon glyphicon-pencil text-muted"></span></span>
+                    </p>
+                </div>
             </div>
             <div class="row">
                 <div class="col-md-5 col-sm-5 col-xs-5 text-right"><strong>Phone Number</strong></div>
-                <div class="col-md-6 col-sm-6 col-xs-6"><p>{{profile.user.phone || ' '}} <span class="btn btn-xs btn-default"><span class="glyphicon glyphicon-pencil"></span></span></p></div>
+                <div class="col-md-6 col-sm-6 col-xs-6">
+                    <div class="form-inline" ng-show="profile.isEditable('phone')">
+                        <input type="text" ng-model="profile.user.phone" class="form-control input-sm" ng-keypress="profile.saveEditOnEnter($event, 'phone')">
+                        <div class="btn-group btn-group-sm">
+                            <button type="button" class="btn btn-default" ng-click="profile.cancelEdit('phone')"><span class="glyphicon glyphicon-remove"></span></button>
+                            <button type="button" class="btn btn-primary" ng-click="profile.saveEdit('phone')"><span class="glyphicon glyphicon icon-disk"></span></button>
+                        </div>
+                    </div>
+                    <p ng-hide="profile.isEditable('phone')"><a href="tel:{{profile.user.phone}}" ng-show="profile.user.phone"><span class="glyphicon glyphicon-phone-alt"></span> {{profile.user.phone}}</a>
+                        <span class="btn btn-xs btn-default" ng-click="profile.editField('phone')"><span class="glyphicon glyphicon-pencil text-muted"></span></span>
+                    </p>
+                </div>
             </div>
             <div class="row">
                 <div class="col-md-5 col-sm-5 col-xs-5 text-right"><strong>Email</strong></div>
