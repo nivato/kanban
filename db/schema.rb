@@ -13,7 +13,15 @@
 
 ActiveRecord::Schema.define(version: 20141013090413) do
 
+  create_table "sprints", force: true do |t|
+    t.string   "codename"
+    t.string   "status"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "tickets", force: true do |t|
+    t.integer  "sprint_id"
     t.integer  "assignee_id"
     t.integer  "reporter_id"
     t.integer  "developer_id"
@@ -21,6 +29,7 @@ ActiveRecord::Schema.define(version: 20141013090413) do
     t.integer  "tester_id"
     t.string   "ticket_type"
     t.string   "status"
+    t.string   "resolution"
     t.string   "summary"
     t.string   "description"
     t.datetime "created_at"
@@ -31,6 +40,7 @@ ActiveRecord::Schema.define(version: 20141013090413) do
   add_index "tickets", ["developer_id"], name: "index_tickets_on_developer_id"
   add_index "tickets", ["reporter_id"], name: "index_tickets_on_reporter_id"
   add_index "tickets", ["reviewer_id"], name: "index_tickets_on_reviewer_id"
+  add_index "tickets", ["sprint_id"], name: "index_tickets_on_sprint_id"
   add_index "tickets", ["tester_id"], name: "index_tickets_on_tester_id"
 
   create_table "users", force: true do |t|
