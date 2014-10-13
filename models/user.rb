@@ -5,6 +5,12 @@ class User < ActiveRecord::Base
   attr_protected :hashed_password, :salt
   attr_accessor :password
   
+  has_many :assigned_tickets, class_name: 'Ticket', foreign_key: 'assignee_id'
+  has_many :reported_tickets, class_name: 'Ticket', foreign_key: 'reporter_id'
+  has_many :developed_tickets, class_name: 'Ticket', foreign_key: 'developer_id'
+  has_many :reviewed_tickets, class_name: 'Ticket', foreign_key: 'reviewer_id'
+  has_many :tested_tickets, class_name: 'Ticket', foreign_key: 'tester_id'
+  
   USERNAME_REGEX = /\A[A-Z0-9_-]+\z/i
   EMAIL_REGEX = /\A([A-Z0-9\-_]+\.?[A-Z0-9\-_]+)+@([A-Z0-9\-_]+\.?[A-Z0-9\-_]+)+\.[a-z]{2,4}\z/i
   
