@@ -35,18 +35,23 @@
             switch(data.type) {
                 case 'success':
                     data.css = 'alert-success';
+                    data.icon = 'ok-sign';
                     break;
                 case 'info':
                     data.css = 'alert-info';
+                    data.icon = 'info-sign';
                     break;
                 case 'warning':
                     data.css = 'alert-warning';
+                    data.icon = 'exclamation-sign';
                     break;
                 case 'error':
                     data.css = 'alert-danger';
+                    data.icon = 'exclamation-sign';
                     break;
                 default:
                     data.css = 'alert-info';
+                    data.icon = 'info-sign';
             }
             appCtrl.alert = data;
             if (data.type !== 'error'){
@@ -260,9 +265,6 @@
             var data = {};
             data[fieldName] = this.user[fieldName];
             $http.put('/api/profile', data)
-                .success(function(response, status, headers, config){
-                    $scope.$emit('alert', {type: 'info', message: fieldName + ' field successfully saved.'});
-                })
                 .error(function(response, status, headers, config){
                     $scope.$emit('alert', {type: 'error', message: 'Failed to save ' + fieldName + ' field.'});
                 });
