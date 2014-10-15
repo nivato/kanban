@@ -1,6 +1,43 @@
 (function(){
     var app = angular.module('Kanban', ['ngRoute', 'flow', 'ngImgCrop']);
-
+    
+    app.factory('$alert', ['$timeout', function($timeout){
+        var alrt = {};
+        alrt.type = '';
+        alrt.message = '';
+        alrt.css = '';
+        alrt.icon = '';
+        alrt.raise = function(type, message){
+            alrt.type = type;
+            alrt.message = message;
+            switch(alrt.type) {
+                case 'success':
+                    alrt.css = 'alert-success';
+                    alrt.icon = 'ok-sign';
+                    break;
+                case 'info':
+                    alrt.css = 'alert-info';
+                    alrt.icon = 'info-sign';
+                    break;
+                case 'warning':
+                    alrt.css = 'alert-warning';
+                    alrt.icon = 'exclamation-sign';
+                    break;
+                case 'error':
+                    alrt.css = 'alert-danger';
+                    alrt.icon = 'exclamation-sign';
+                    break;
+                default:
+                    alrt.css = 'alert-info';
+                    alrt.icon = 'info-sign';
+            }
+            if (alrt.type !== 'error'){
+                $timeout(function(){alrt.type = null;}, 6000);
+            }
+        };
+        return alrt;
+    }]);
+    
     app.config(['$routeProvider', '$locationProvider', 'flowFactoryProvider', '$compileProvider', function($routeProvider, $locationProvider, flowFactoryProvider, $compileProvider){
         $locationProvider.html5Mode(true);
         $routeProvider
@@ -21,48 +58,19 @@
         };
     }]);
 
-    app.controller('ApplicationController', ['$scope', '$location', '$http', '$timeout', function($scope, $location, $http, $timeout){
+    app.controller('ApplicationController', ['$scope', '$location', '$http', function($scope, $location, $http){
         var appCtrl = this;
         this.user = {};
-        this.alert = {};
         $scope.$on('user_logged_in', function(event, data){
             appCtrl.user = data;
         });
         $scope.$on('updated_user_avatar', function(event, data){
             appCtrl.user.picture = data;
         });
-        $scope.$on('alert', function(event, data){
-            switch(data.type) {
-                case 'success':
-                    data.css = 'alert-success';
-                    data.icon = 'ok-sign';
-                    break;
-                case 'info':
-                    data.css = 'alert-info';
-                    data.icon = 'info-sign';
-                    break;
-                case 'warning':
-                    data.css = 'alert-warning';
-                    data.icon = 'exclamation-sign';
-                    break;
-                case 'error':
-                    data.css = 'alert-danger';
-                    data.icon = 'exclamation-sign';
-                    break;
-                default:
-                    data.css = 'alert-info';
-                    data.icon = 'info-sign';
-            }
-            appCtrl.alert = data;
-            if (data.type !== 'error'){
-                $timeout(function(){appCtrl.alert = {};}, 6000);
-            }
-        });
         this.logout = function(){
-            $http.get('/api/logout').success(function(response, status, headers, config){
-                appCtrl.user = {};
-                $location.path('/welcome');
-            });
+            $http.get('/api/logout');
+            this.user = {};
+            $location.path('/welcome');
         };
         this.authenticated = function(){
             return !!this.user.username;
@@ -77,8 +85,12 @@
                 }
             });
     }]);
-
-    app.controller('RegistrationController', ['$scope', '$http', '$location', function($scope, $http, $location){
+    
+    app.controller('AlertController', ['$alert', function($alert){
+        this.alert = $alert;
+    }]);
+    
+    app.controller('RegistrationController', ['$scope', '$http', '$location', '$alert', function($scope, $http, $location, $alert){
         var reg = this;
         this.user = {};
         this.generatedCaptcha = '';
@@ -88,7 +100,7 @@
         this.submitRegistration = function(){
             $http.post('/api/register', this.user)
                 .success(function(response, status, headers, config){
-                    $scope.$emit('alert', {type: 'congratulations', message: 'You have successfully registered. Now you can Log-in to Kanban.'});
+                    $alert.raise('congratulations', 'You have successfully registered. Now you can Log-in to Kanban.');
                     $location.path('/welcome');
                 })
                 .error(function(response, status, headers, config){
@@ -231,7 +243,7 @@
                     $location.path('/');
                 })
                 .error(function(response, status, headers, config){
-                    loginForm.messages = response.messages;
+                    loginForm.messages = response.messages || ['Something bad happened during Login!', 'Check your Internet connection!'];
                 });
         };
         this.registration = function(){
@@ -240,7 +252,7 @@
         };
     }]);
 
-    app.controller('ProfileController', ['$scope', '$timeout', '$http', function($scope, $timeout, $http){
+    app.controller('ProfileController', ['$scope', '$timeout', '$http', '$alert', function($scope, $timeout, $http, $alert){
         var profile = this;
         this.user = {};
         this.croppedAvatarURI = '';
@@ -266,7 +278,7 @@
             data[fieldName] = this.user[fieldName];
             $http.put('/api/profile', data)
                 .error(function(response, status, headers, config){
-                    $scope.$emit('alert', {type: 'error', message: 'Failed to save ' + fieldName + ' field.'});
+                    $alert.raise('error', 'Failed to save ' + fieldName + ' field.');
                 });
         };
         this.saveEditOnEnter = function(keyEvent, fieldName){
@@ -357,7 +369,9 @@
     app.directive('alert', function(){
         return {
             restrict: 'E',
-            templateUrl: '/templates/alert.html'
+            templateUrl: '/templates/alert.html',
+            controller: 'AlertController',
+            controllerAs: 'lrt'
         };
     });
 

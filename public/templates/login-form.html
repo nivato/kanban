@@ -7,6 +7,7 @@
             </div>
             <form role="form" ng-submit="lgn.submitLogin()">
                 <div class="modal-body">
+                    <p class="text-center text-danger" ng-repeat="message in lgn.messages"><small>{{message}}</small></p>
                     <div class="form-group">
                         <label for="username">Username or Email</label>
                         <input ng-model="lgn.user.username" type="text" class="form-control" id="username" placeholder="Enter username/email" required>
@@ -18,7 +19,6 @@
                     <div class="checkbox">
                         <label><input type="checkbox" ng-model="lgn.user.remember"> Keep me logged in</label>
                     </div>
-                    <p class="text-center text-danger" ng-repeat="message in lgn.messages">{{message}}</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" ng-click="lgn.registration()">Register</button>
