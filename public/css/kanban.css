@@ -1,18 +1,39 @@
 @font-face {
-    font-family: 'Kanban Icon';
-    src:url('../fonts/kanban-icon.eot?96eol0');
-    src:url('../fonts/kanban-icon.eot?#iefix96eol0') format('embedded-opentype'),
-        url('../fonts/kanban-icon.woff?96eol0') format('woff'),
-        url('../fonts/kanban-icon.ttf?96eol0') format('truetype'),
-        url('../fonts/kanban-icon.svg?96eol0#icomoon') format('svg');
+    font-family: 'kanban';
+    src:url('../fonts/kanban.eot?wj7v7b');
+    src:url('../fonts/kanban.eot?#iefixwj7v7b') format('embedded-opentype'),
+        url('../fonts/kanban.woff?wj7v7b') format('woff'),
+        url('../fonts/kanban.ttf?wj7v7b') format('truetype'),
+        url('../fonts/kanban.svg?wj7v7b#icomoon') format('svg');
 }
 
-.kanban-icon {
-    font-family: 'Kanban Icon';
+.developer-icon, .dummy-icon, .kanban-icon, .pm-icon, .reviewer-icon, .tl-icon, .tester-icon, .pacman-icon {
+    font-family: 'kanban';
 }
 
-.kanban-icon:before {
+.developer-icon:before {
     content: "\e600";
+}
+.dummy-icon:before {
+    content: "\e601";
+}
+.kanban-icon:before {
+    content: "\e602";
+}
+.pm-icon:before {
+    content: "\e603";
+}
+.reviewer-icon:before {
+    content: "\e604";
+}
+.tl-icon:before {
+    content: "\e605";
+}
+.tester-icon:before {
+    content: "\e606";
+}
+.pacman-icon:before {
+    content: "\e607";
 }
 
 .logo {
@@ -43,6 +64,18 @@
 
 .pull-left.avatar {
     margin-right: 10px;
+}
+
+h1.glyphicon {
+    margin: 0px;
+}
+
+.role {
+    display: block;
+    float: left;
+    min-width: 90px;
+    margin: 0px 5px 5px 0px;
+    padding: 5px;
 }
 
 .board-ticket {
