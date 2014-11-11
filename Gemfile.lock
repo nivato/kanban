@@ -50,6 +50,7 @@ PLATFORMS
 DEPENDENCIES
   activerecord
   protected_attributes
+  rack
   rake
   sinatra
   sinatra-activerecord
