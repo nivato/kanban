@@ -1,3 +1,4 @@
+<new-ticket></new-ticket>
 <nav class="navbar navbar-inverse navbar-static-top" role="navigation">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -25,7 +26,7 @@
                 </div>
             </form>
             <form class="navbar-form navbar-left" role="new" ng-show="app.authenticated()">
-                <a href="/something_not_existing" class="btn btn-primary"><span class="glyphicon glyphicon-file"> </span> New ticket</a>
+                <a href="#" data-toggle="modal" data-target="#new_ticket" class="btn btn-primary"><span class="glyphicon glyphicon-file"> </span> New ticket</a>
             </form>
             <ul class="nav navbar-nav navbar-right">
                     <li ng-hide="app.authenticated()"><a href="#" data-toggle="modal" data-target="#loginForm">Log In</a></li>

@@ -356,7 +356,14 @@
                 profile.user = response.data;
             });
     }]);
-
+    
+    app.controller('NewTicketController', [function(){
+        this.ticket = {};
+        this.newTicket = function(){
+            alert('Yey!');
+        };
+    }]);
+    
     app.directive('navigationBar', function(){
         return {
             restrict: 'E',
@@ -397,7 +404,16 @@
             templateUrl: 'templates/crop-image-dialog.html',
         };
     });
-
+    
+    app.directive('newTicket', function(){
+        return {
+            restrict: 'E',
+            templateUrl: '/templates/new-ticket.html',
+            controller: 'NewTicketController',
+            controllerAs: 'newtct'
+        };
+    });
+    
     app.filter('limitStrTo', function() {
         return function(input, limit) {
             input = input || '';
