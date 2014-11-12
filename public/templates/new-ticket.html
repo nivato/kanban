@@ -5,23 +5,49 @@
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                 <h4 class="modal-title" id="new_ticket_label">New Ticket</h4>
             </div>
-            <form role="form" ng-submit="newtct.newTicket()">
+            <form role="form" class="form-horizontal" ng-submit="newtct.newTicket()">
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="username">Ticket Type</label>
-                        <input type="text" class="form-control" id="ticket_type">
+                        <label for="ticket_type" class="col-sm-3 text-right">Ticket Type</label>
+                        <div  class="col-sm-9">
+                            <div class="dropdown">
+                                <button class="btn btn-default dropdown-toggle" type="button" id="ticket_type" data-toggle="dropdown">
+                                    <img class="ticket-type task" ng-src="img/task.png" alt="task" />
+                                    Task
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                                    <li role="presentation">
+                                        <a role="menuitem" tabindex="-1" href="#">
+                                            <img class="ticket-type task" ng-src="img/task.png" alt="task" />
+                                            Task
+                                        </a>
+                                    </li>
+                                    <li role="presentation">
+                                        <a role="menuitem" tabindex="-1" href="#">
+                                            <img class="ticket-type bug" ng-src="img/bug.png" alt="bug" />
+                                            Bug
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group">
-                        <label for="username">Summary</label>
-                        <input type="text" class="form-control" id="summary">
+                        <label for="summary" class="col-sm-3 text-right">Summary</label>
+                        <div  class="col-sm-9">
+                            <input type="text" class="form-control" id="summary" />
+                        </div>
                     </div>
                     <div class="form-group">
-                        <label for="username">Description</label>
-                        <input type="text" class="form-control" id="description">
+                        <label for="description" class="col-sm-3 text-right">Description</label>
+                        <div  class="col-sm-9">
+                            <textarea class="form-control" id="description" rows="9"></textarea>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default">Cancel</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                     <button type="submit" class="btn btn-primary">Create</button>
                 </div>
             </form>
