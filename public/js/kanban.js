@@ -48,6 +48,8 @@
             .when('/sprints', {templateUrl: '/templates/sprints.html'})
             .when('/team', {templateUrl: '/templates/team.html'})
             .when('/welcome', {templateUrl: '/templates/welcome.html'})
+            .when('/TCT-:id', {templateUrl: '/templates/ticket.html', controller: 'TicketController', controllerAs: 'tct'})
+            .when('/tct-:id', {templateUrl: '/templates/ticket.html', controller: 'TicketController', controllerAs: 'tct'})
             .when('/register', {templateUrl: '/templates/register.html', controller: 'RegistrationController', controllerAs: 'reg'})
             .otherwise({templateUrl: '/templates/notfound.html'});
         $compileProvider.aHrefSanitizationWhitelist(/^\s*(http|https|mailto|skype|tel):/);
@@ -357,11 +359,40 @@
             });
     }]);
     
-    app.controller('NewTicketController', [function(){
-        this.ticket = {};
-        this.newTicket = function(){
-            alert('Yey!');
+    app.controller('NewTicketController', ['$http', '$location', function($http, $location){
+        var newTicket = this;
+        this.ticketTypes = ['task', 'bug'];
+        this.ticket = {ticket_type: this.ticketTypes[0]};
+        this.messages = [];
+        this.createNewTicket = function(){
+            $http.post('/api/ticket', this.ticket)
+                .success(function(response, status, headers, config){
+                    newTicket.ticket = {ticket_type: newTicket.ticketTypes[0]};
+                    $('#new_ticket').modal('hide');
+                    $location.path('/TCT-' + response.data.id);
+                })
+                .error(function(response, status, headers, config){
+                    newTicket.messages = response.messages || ['Something bad happened during Ticket Creation!', 'Check your Internet connection!'];
+                });
         };
+        
+    }]);
+    
+    app.controller('TicketController', ['$routeParams', '$http', '$location', function($routeParams, $http, $location){
+        var ticketCtrl = this;
+        this.ticket = {};
+        $http.get('/api/ticket/' + $routeParams.id)
+            .success(function(response, status, headers, config){
+                ticketCtrl.ticket = response.data;
+            })
+            .error(function(response, status, headers, config){
+                ticketCtrl.ticket = {};
+                if (!!response.messages && (response.messages[0] === 'Unauthorized')){
+                    $location.path('/welcome');
+                } else {
+                    $location.path('/notfound');
+                }
+            });
     }]);
     
     app.directive('navigationBar', function(){
@@ -410,7 +441,7 @@
             restrict: 'E',
             templateUrl: '/templates/new-ticket.html',
             controller: 'NewTicketController',
-            controllerAs: 'newtct'
+            controllerAs: 'ntct'
         };
     });
     

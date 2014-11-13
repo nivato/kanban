@@ -108,6 +108,23 @@ post '/api/avatar' do
   return [200, {:status => :ok, :data => saved_name}.to_json]
 end
 
+get '/api/ticket/:id' do
+  ticket = Ticket.find(params[:id])
+  return [200, {:status => :ok, :data => ticket.attributes}.to_json]
+end
+
+post '/api/ticket' do
+  data = JSON.parse request.body.read
+  user = User.find(session[:user_id])
+  ticket = Ticket.new(data)
+  ticket.reporter = user
+  if ticket.save
+    return [200, {:status => :ok, :data => {:id => ticket.id}}.to_json]
+  else
+    return [400, {:status => :error, :messages => model_errors(ticket)}.to_json]
+  end
+end
+
 not_found do
   send_file 'public/index.html'
 end
