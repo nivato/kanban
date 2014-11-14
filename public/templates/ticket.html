@@ -1,4 +1,95 @@
-<h3>Ticket ID: TCT-{{tct.ticket.id}}</h3>
-<h3>Ticket Type: {{tct.ticket.ticket_type | capitalize}}</h3>
-<h3>Summary: {{tct.ticket.summary}}</h3>
-<h3>Description: {{tct.ticket.description}}</h3>
+<div class="container-fluid">
+    <ol class="breadcrumb">
+        <li><a href="#">Sprint 2</a></li>
+        <li><a href="/TCT-{{tct.ticket.id}}"><strong>TCT-{{tct.ticket.id}}</strong></a></li>
+    </ol>
+    <div class="page-header">
+        <h1 class="text-muted">{{tct.ticket.summary}}
+            <span class="btn btn-default"><span class="glyphicon glyphicon-pencil text-muted"></span></span>
+        </h1>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-8">
+            
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="details_heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-target="#details" href="#" aria-expanded="true" aria-controls="details">
+                            <span class="caret"></span> Details
+                        </a>
+                    </h4>
+                </div>
+                <div id="details" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="details_heading">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <span class="text-muted">Type:</span>
+                                <img class="ticket-type {{tct.ticket.ticket_type}}" ng-src="img/{{tct.ticket.ticket_type}}.png" alt="{{tct.ticket.ticket_type}}" />
+                                {{tct.ticket.ticket_type | capitalize}}
+                            </div>
+                            <div class="col-sm-6">
+                                <span class="text-muted">Status:</span> <span class="label label-warning">In progress</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="descr_heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-target="#descr" href="#" aria-expanded="true" aria-controls="descr">
+                            <span class="caret"></span> Description
+                        </a>
+                    </h4>
+                </div>
+                <div id="descr" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="descr_heading">
+                    <div class="panel-body">
+                        {{tct.ticket.description}}
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        <div class="col-md-4">
+            
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="people_heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-target="#people" href="#" aria-expanded="true" aria-controls="people">
+                            <span class="caret"></span> People
+                        </a>
+                    </h4>
+                </div>
+                <div id="people" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="people_heading">
+                    <div class="panel-body">
+                        <h3 class="text-muted glyphicon developer-icon"></h3> Assignee:<br/>
+                        <h3 class="text-muted glyphicon dummy-icon"></h3> Reporter:<br/>
+                        <h3 class="text-muted glyphicon reviewer-icon"></h3> Reviewer:<br/>
+                        <h3 class="text-muted glyphicon tester-icon"></h3> Tester:
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="dates_heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-target="#dates" href="#" aria-expanded="true" aria-controls="dates">
+                            <span class="caret"></span> Dates
+                        </a>
+                    </h4>
+                </div>
+                <div id="dates" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="dates_heading">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <span class="text-muted">Created:</span> {{tct.ticket.created_at}}<br/>
+                                <span class="text-muted">Updated:</span> {{tct.ticket.updated_at}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>

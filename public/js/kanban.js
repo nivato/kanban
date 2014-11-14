@@ -390,7 +390,7 @@
                 if (!!response.messages && (response.messages[0] === 'Unauthorized')){
                     $location.path('/welcome');
                 } else {
-                    $location.path('/notfound');
+                    $location.path('/notfound' + $location.path());
                 }
             });
     }]);
