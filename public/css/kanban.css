@@ -168,3 +168,10 @@ table th, table td {
     -moz-border-radius: 3px;
     border-radius: 3px;
 }
+
+.caret-right {
+    border-top: 4px solid transparent;
+    border-bottom: 4px solid transparent;
+    border-left: 4px solid;
+    border-right: 0px; 
+}

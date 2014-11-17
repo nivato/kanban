@@ -14,11 +14,9 @@
             
             <div class="panel panel-default">
                 <div class="panel-heading" role="tab" id="details_heading">
-                    <h4 class="panel-title">
-                        <a data-toggle="collapse" data-target="#details" href="#" aria-expanded="true" aria-controls="details">
-                            <span class="caret"></span> Details
-                        </a>
-                    </h4>
+                    <a data-toggle="collapse" data-target="#details" href="#" aria-expanded="true" aria-controls="details" class="text-muted" ng-click="tct.togglePanel('details')">
+                        <span class="caret" ng-class="{'caret-right': tct.panels.details.collapsed}"></span> Details
+                    </a>
                 </div>
                 <div id="details" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="details_heading">
                     <div class="panel-body">
@@ -37,11 +35,9 @@
             </div>
             <div class="panel panel-default">
                 <div class="panel-heading" role="tab" id="descr_heading">
-                    <h4 class="panel-title">
-                        <a data-toggle="collapse" data-target="#descr" href="#" aria-expanded="true" aria-controls="descr">
-                            <span class="caret"></span> Description
-                        </a>
-                    </h4>
+                    <a data-toggle="collapse" data-target="#descr" href="#" aria-expanded="true" aria-controls="descr" class="text-muted" ng-click="tct.togglePanel('description')">
+                        <span class="caret" ng-class="{'caret-right': tct.panels.description.collapsed}"></span> Description
+                    </a>
                 </div>
                 <div id="descr" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="descr_heading">
                     <div class="panel-body">
@@ -55,11 +51,9 @@
             
             <div class="panel panel-default">
                 <div class="panel-heading" role="tab" id="people_heading">
-                    <h4 class="panel-title">
-                        <a data-toggle="collapse" data-target="#people" href="#" aria-expanded="true" aria-controls="people">
-                            <span class="caret"></span> People
-                        </a>
-                    </h4>
+                    <a data-toggle="collapse" data-target="#people" href="#" aria-expanded="true" aria-controls="people" class="text-muted" ng-click="tct.togglePanel('people')">
+                        <span class="caret" ng-class="{'caret-right': tct.panels.people.collapsed}"></span> People
+                    </a>
                 </div>
                 <div id="people" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="people_heading">
                     <div class="panel-body">
@@ -72,11 +66,9 @@
             </div>
             <div class="panel panel-default">
                 <div class="panel-heading" role="tab" id="dates_heading">
-                    <h4 class="panel-title">
-                        <a data-toggle="collapse" data-target="#dates" href="#" aria-expanded="true" aria-controls="dates">
-                            <span class="caret"></span> Dates
-                        </a>
-                    </h4>
+                    <a data-toggle="collapse" data-target="#dates" href="#" aria-expanded="true" aria-controls="dates" class="text-muted" ng-click="tct.togglePanel('dates')">
+                        <span class="caret" ng-class="{'caret-right': tct.panels.dates.collapsed}"></span> Dates
+                    </a>
                 </div>
                 <div id="dates" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="dates_heading">
                     <div class="panel-body">

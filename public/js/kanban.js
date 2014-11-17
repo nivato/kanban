@@ -381,6 +381,15 @@
     app.controller('TicketController', ['$routeParams', '$http', '$location', function($routeParams, $http, $location){
         var ticketCtrl = this;
         this.ticket = {};
+        this.panels = {
+            details: {collapsed: false},
+            people: {collapsed: false},
+            description: {collapsed: false},
+            dates: {collapsed: false},
+        };
+        this.togglePanel = function(panel){
+            this.panels[panel].collapsed = !this.panels[panel].collapsed;
+        };
         $http.get('/api/ticket/' + $routeParams.id)
             .success(function(response, status, headers, config){
                 ticketCtrl.ticket = response.data;
