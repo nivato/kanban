@@ -27,9 +27,9 @@ ActiveRecord::Schema.define(version: 20141013090413) do
     t.integer  "developer_id"
     t.integer  "reviewer_id"
     t.integer  "tester_id"
-    t.string   "ticket_type"
-    t.string   "status"
-    t.string   "resolution"
+    t.integer  "ticket_type",  default: 0
+    t.integer  "status",       default: 0
+    t.integer  "resolution"
     t.string   "summary"
     t.string   "description"
     t.datetime "created_at"

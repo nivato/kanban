@@ -110,7 +110,7 @@ end
 
 get '/api/ticket/:id' do
   ticket = Ticket.find(params[:id])
-  return [200, {:status => :ok, :data => ticket.attributes}.to_json]
+  return [200, {:status => :ok, :data => ticket.to_hash}.to_json]
 end
 
 post '/api/ticket' do

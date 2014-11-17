@@ -7,9 +7,9 @@ class CreateTicketsTable < ActiveRecord::Migration
       table.references :developer
       table.references :reviewer
       table.references :tester
-      table.string 'ticket_type' # bug | task
-      table.string 'status' # opened | reopened | todo | inprogress | review | testing | done
-      table.string 'resolution' # resolved | fixed | wontfix | notreproducible | canceled | duplicate | asdesigned | invalid
+      table.integer 'ticket_type', :default => 0 # task | bug
+      table.integer 'status', :default => 0 # opened | todo | inprogress | review | testing | done
+      table.integer 'resolution' # resolved | fixed | wontfix | cannotreproduce | canceled | duplicate | asdesigned | notvalid
       table.string 'summary'
       table.string 'description'
       table.timestamps

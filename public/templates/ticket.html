@@ -27,7 +27,15 @@
                                 {{tct.ticket.ticket_type | capitalize}}
                             </div>
                             <div class="col-sm-6">
-                                <span class="text-muted">Status:</span> <span class="label label-warning">In progress</span>
+                                <span class="text-muted">Status:</span> <span class="label label-warning">{{tct.ticket.status | capitalize}}</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <span class="text-muted">Components:</span>
+                            </div>
+                            <div class="col-sm-6">
+                                <span class="text-muted">Resolution:</span> <span class="label label-warning">{{tct.ticket.resolution | capitalize}}</span>
                             </div>
                         </div>
                     </div>
@@ -74,8 +82,8 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-sm-12">
-                                <span class="text-muted">Created:</span> {{tct.ticket.created_at}}<br/>
-                                <span class="text-muted">Updated:</span> {{tct.ticket.updated_at}}
+                                <span class="text-muted">Created:</span> {{tct.ticket.created_at | date:'h:mm:ss a | MMM d, y'}}<br/>
+                                <span class="text-muted">Updated:</span> {{tct.ticket.updated_at | date:'h:mm:ss a | MMM d, y'}}
                             </div>
                         </div>
                     </div>
