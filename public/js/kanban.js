@@ -97,8 +97,8 @@
         this.user = {};
         this.generatedCaptcha = '';
         this.alreadyTakenUsernames = [];
-        this.emailPattern = /^([A-Z0-9\-_]+\.?[A-Z0-9\-_]+)+@([A-Z0-9\-_]+\.?[A-Z0-9\-_]+)+\.[a-z]{2,4}$/i;
-        this.usernamePattern = /^[A-Z0-9_-]+$/i;
+        this.emailPattern = /^([\w\-_]+\.?[\w\-_]+)+@([\w\-_]+\.?[\w\-_]+)+\.[a-z]{2,4}$/i;
+        this.usernamePattern = /^[\w_\-]+$/i;
         this.submitRegistration = function(){
             $http.post('/api/register', this.user)
                 .success(function(response, status, headers, config){

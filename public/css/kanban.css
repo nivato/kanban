@@ -175,3 +175,13 @@ table th, table td {
     border-left: 4px solid;
     border-right: 0px; 
 }
+
+.ticket-breadcrumb {
+    padding: 0px;
+    margin-bottom: 0px;
+    background-color: #FFFFFF;
+}
+
+.ticket-summary {
+    margin-top: 5px;
+}

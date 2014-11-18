@@ -1,12 +1,12 @@
 <div class="container-fluid">
-    <ol class="breadcrumb">
-        <li><a href="#">Sprint 2</a></li>
-        <li><a href="/TCT-{{tct.ticket.id}}"><strong>TCT-{{tct.ticket.id}}</strong></a></li>
-    </ol>
     <div class="page-header">
-        <h1 class="text-muted">{{tct.ticket.summary}}
+        <ol class="breadcrumb ticket-breadcrumb">
+            <li><a href="#">Sprint 2</a></li>
+            <li><a href="/TCT-{{tct.ticket.id}}">TCT-{{tct.ticket.id}}</a></li>
+        </ol>
+        <h2 class="text-muted ticket-summary">{{tct.ticket.summary}}
             <span class="btn btn-default"><span class="glyphicon glyphicon-pencil text-muted"></span></span>
-        </h1>
+        </h2>
     </div>
     
     <div class="row">
@@ -21,21 +21,32 @@
                 <div id="details" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="details_heading">
                     <div class="panel-body">
                         <div class="row">
-                            <div class="col-sm-6">
+                            <div class="col-sm-2">
                                 <span class="text-muted">Type:</span>
+                            </div>
+                            <div class="col-sm-4">
                                 <img class="ticket-type {{tct.ticket.ticket_type}}" ng-src="img/{{tct.ticket.ticket_type}}.png" alt="{{tct.ticket.ticket_type}}" />
                                 {{tct.ticket.ticket_type | capitalize}}
                             </div>
-                            <div class="col-sm-6">
-                                <span class="text-muted">Status:</span> <span class="label label-warning">{{tct.ticket.status | capitalize}}</span>
+                            <div class="col-sm-2">
+                                <span class="text-muted">Status:</span>
+                            </div>
+                            <div class="col-sm-4">
+                                <span class="label label-warning">{{tct.ticket.status | capitalize}}</span>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-sm-6">
+                            <div class="col-sm-2">
                                 <span class="text-muted">Components:</span>
                             </div>
-                            <div class="col-sm-6">
-                                <span class="text-muted">Resolution:</span> <span class="label label-warning">{{tct.ticket.resolution | capitalize}}</span>
+                            <div class="col-sm-4">
+                                Some components...
+                            </div>
+                            <div class="col-sm-2">
+                                <span class="text-muted">Resolution:</span>
+                            </div>
+                            <div class="col-sm-4">
+                                <span class="label label-success">{{tct.ticket.resolution | capitalize}}</span>
                             </div>
                         </div>
                     </div>
@@ -81,9 +92,25 @@
                 <div id="dates" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="dates_heading">
                     <div class="panel-body">
                         <div class="row">
-                            <div class="col-sm-12">
-                                <span class="text-muted">Created:</span> {{tct.ticket.created_at | date:'h:mm:ss a | MMM d, y'}}<br/>
-                                <span class="text-muted">Updated:</span> {{tct.ticket.updated_at | date:'h:mm:ss a | MMM d, y'}}
+                            <div class="col-sm-2">
+                                <span class="text-muted">Created:</span>
+                            </div>
+                            <div class="col-sm-4">
+                                <span class="glyphicon glyphicon-time text-muted"></span> {{tct.ticket.created_at | date:'h:mm:ss a'}}
+                            </div>
+                            <div class="col-sm-4">
+                                <span class="glyphicon icon-calendar text-muted"></span> {{tct.ticket.created_at | date:'MMM d, y'}}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <span class="text-muted">Updated:</span>
+                            </div>
+                            <div class="col-sm-4">
+                                <span class="glyphicon glyphicon-time text-muted"></span> {{tct.ticket.updated_at | date:'h:mm:ss a'}}
+                            </div>
+                            <div class="col-sm-4">
+                                <span class="glyphicon icon-calendar text-muted"></span> {{tct.ticket.updated_at | date:'MMM d, y'}}
                             </div>
                         </div>
                     </div>

@@ -11,8 +11,8 @@ class User < ActiveRecord::Base
   has_many :reviewed_tickets, class_name: 'Ticket', foreign_key: 'reviewer_id'
   has_many :tested_tickets, class_name: 'Ticket', foreign_key: 'tester_id'
   
-  USERNAME_REGEX = /\A[A-Z0-9_-]+\z/i
-  EMAIL_REGEX = /\A([A-Z0-9\-_]+\.?[A-Z0-9\-_]+)+@([A-Z0-9\-_]+\.?[A-Z0-9\-_]+)+\.[a-z]{2,4}\z/i
+  USERNAME_REGEX = /\A[\w_\-]+\z/i
+  EMAIL_REGEX = /\A([\w\-_]+\.?[\w\-_]+)+@([\w\-_]+\.?[\w\-_]+)+\.[a-z]{2,4}\z/i
   
   validates :username, :length => {:within => 6..25}, :uniqueness => true, :format => {:with => USERNAME_REGEX}
   validates :email, :length => {:within => 6..255}, :format => {:with => EMAIL_REGEX}
