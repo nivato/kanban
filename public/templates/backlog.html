@@ -1,1 +1,48 @@
-<h3>Backlog</h3>
+<div class="container-fluid">
+    
+    <div class="page-header">
+        <h2 class="text-muted">Backlog</h2>
+    </div>
+    
+    <table class="table board">
+        <thead>
+            <tr>
+                <th>Opened <span class="badge">0</span></th>
+                <th>Opened <span class="badge">0</span></th>
+                <th>Opened <span class="badge">0</span></th>
+                <th>Opened <span class="badge">0</span></th>
+                <th>Opened <span class="badge">0</span></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <div class="list-group">
+                        <board-ticket ng-repeat="ticket in backlog.tickets"> </board-ticket>
+                    </div>
+                </td>
+                <td>
+                    <div class="list-group">
+                        <board-ticket ng-repeat="ticket in backlog.tickets"> </board-ticket>
+                    </div>
+                </td>
+                <td>
+                    <div class="list-group">
+                        <board-ticket ng-repeat="ticket in backlog.tickets"> </board-ticket>
+                    </div>
+                </td>
+                <td>
+                    <div class="list-group">
+                        <board-ticket ng-repeat="ticket in backlog.tickets"> </board-ticket>
+                    </div>
+                </td>
+                <td>
+                    <div class="list-group">
+                        <board-ticket ng-repeat="ticket in backlog.tickets"> </board-ticket>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    
+</div>

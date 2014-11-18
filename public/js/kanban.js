@@ -42,7 +42,7 @@
         $locationProvider.html5Mode(true);
         $routeProvider
             .when('/', {templateUrl: '/templates/board.html', controller: 'BoardController', controllerAs: 'sprint'})
-            .when('/backlog', {templateUrl: '/templates/backlog.html'})
+            .when('/backlog', {templateUrl: '/templates/backlog.html', controller: 'BacklogController', controllerAs: 'backlog'})
             .when('/profile', {templateUrl: '/templates/profile.html', controller: 'ProfileController', controllerAs: 'profile'})
             .when('/search', {templateUrl: '/templates/search.html'})
             .when('/sprints', {templateUrl: '/templates/sprints.html'})
@@ -223,7 +223,25 @@
                 })
                 .error(function(response, status, headers, config){
                     sprint.tickets = [];
-                    if (response.messages[0] === 'Unauthorized'){
+                    if (!!response.messages && (response.messages[0] === 'Unauthorized')){
+                        $location.path('/welcome');
+                    }
+                });
+        };
+        this.refresh();
+    }]);
+    
+    app.controller('BacklogController', ['$scope', '$location', '$http', function($scope, $location, $http){
+        var backlog = this;
+        this.tickets = [];
+        this.refresh = function(){
+            $http.get('/api/tickets', {params: {status: 'opened'}})
+                .success(function(response, status, headers, config){
+                    backlog.tickets = response.data;
+                })
+                .error(function(response, status, headers, config){
+                    backlog.tickets = [];
+                    if (!!response.messages && (response.messages[0] === 'Unauthorized')){
                         $location.path('/welcome');
                     }
                 });

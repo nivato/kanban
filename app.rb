@@ -9,10 +9,6 @@ enable :sessions
 set :session_secret, 'cfbe90bbaa81bfd3eb009b8e0d87a1abdee6cf88c0ac91a61476d881634d7295'
 
 helpers do
-  def filtered_user(user)
-    {:id => user.id, :username => user.username, :picture => user.picture}
-  end
-
   def model_errors(model)
     errors = model.errors.messages
     converted_errors = {}
@@ -47,7 +43,11 @@ get '/' do
 end
 
 get '/api/tickets' do
-  return [200, {:status => :ok, :data => []}.to_json]
+  tickets = []
+  if params['status']
+    tickets = Ticket.where({:status => Ticket.statuses[params['status']]}).map{|ticket| ticket.to_hash}
+  end
+  return [200, {:status => :ok, :data => tickets}.to_json]
 end
 
 post '/api/register' do
@@ -62,7 +62,7 @@ end
 
 get '/api/access' do
   user = User.find(session[:user_id])
-  return [200, {:status => :ok, :data => filtered_user(user)}.to_json]
+  return [200, {:status => :ok, :data => user.to_hash}.to_json]
 end
 
 post '/api/login' do
@@ -70,7 +70,7 @@ post '/api/login' do
   user = User.authenticate(data['username'], data['password'])
   if user
     session[:user_id] = user.id
-    return [200, {:status => :ok, :data => filtered_user(user)}.to_json]
+    return [200, {:status => :ok, :data => user.to_hash}.to_json]
   else
     return [401, {:status => :error, :messages => ['Invalid Username and/or Password']}.to_json]
   end
@@ -83,14 +83,12 @@ end
 
 get '/api/profile' do
   user = User.find(session[:user_id])
-  filter = %w(username first_name last_name email picture job_position skype phone)
-  return [200, {:status => :ok, :data => user.attributes.select{|key, value| filter.include? key}}.to_json]
+  return [200, {:status => :ok, :data => user.to_hash}.to_json]
 end
 
 put '/api/profile' do
   data = JSON.parse request.body.read
-  filter = %w(username first_name last_name email picture job_position skype phone)
-  data.delete_if{|key, value| !filter.include? key}
+  data.delete_if{|key, value| !User.allowed_attributes.include? key}
   user = User.find(session[:user_id])
   data.each{|key, value| user.send("#{key}=", value)}
   if user.save

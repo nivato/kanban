@@ -39,8 +39,16 @@ class User < ActiveRecord::Base
     end
   end
   
+  def self.allowed_attributes
+    %w(username first_name last_name email picture job_position skype phone)
+  end
+  
   def does_password_match(password="")
     hashed_password == User.hash_with_salt(password, salt)
+  end
+  
+  def to_hash
+    self.attributes.select{|key, value| User.allowed_attributes.include? key}
   end
   
   private

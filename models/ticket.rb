@@ -14,6 +14,11 @@ class Ticket < ActiveRecord::Base
     hash['ticket_type'] = self.ticket_type
     hash['status'] = self.status
     hash['resolution'] = self.resolution
+    hash['assignee'] = self.assignee.nil? ? nil : self.assignee.to_hash
+    hash['reporter'] = self.reporter.nil? ? nil : self.reporter.to_hash
+    hash['developer'] = self.developer.nil? ? nil : self.developer.to_hash
+    hash['reviewer'] = self.reviewer.nil? ? nil : self.reviewer.to_hash
+    hash['tester'] = self.tester.nil? ? nil : self.tester.to_hash
     hash
   end
   
