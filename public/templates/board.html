@@ -1,44 +1,48 @@
-<h3>Sprint <a href="#">#11</a></h3>
-<table class="table board">
-    <thead>
-        <tr>
-            <th>Todo <span class="badge">{{sprint.numberOfTicketsWithStatus('todo')}}</span></th>
-            <th>In Progress <span class="badge">{{sprint.numberOfTicketsWithStatus('inprogress')}}</span></th>
-            <th>Review <span class="badge">{{sprint.numberOfTicketsWithStatus('review')}}</span></th>
-            <th>Testing <span class="badge">{{sprint.numberOfTicketsWithStatus('testing')}}</span></th>
-            <th>Done <span class="badge">{{sprint.numberOfTicketsWithStatus('done')}}</span></th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                <div class="list-group">
-                    <board-ticket ng-repeat="ticket in sprint.tickets | filter : {status: 'todo'} "> </board-ticket>
-                </div>
-            </td>
-            <td>
-                <div class="list-group">
-                    <board-ticket ng-repeat="ticket in sprint.tickets | filter : {status: 'inprogress'} "> </board-ticket>
-                </div>
-            </td>
-            <td>
-                <div class="list-group">
-                    <board-ticket ng-repeat="ticket in sprint.tickets | filter : {status: 'review'} "> </board-ticket>
-                </div>
-            </td>
-            <td>
-                <div class="list-group">
-                    <board-ticket ng-repeat="ticket in sprint.tickets | filter : {status: 'testing'} "> </board-ticket>
-                </div>
-            </td>
-            <td>
-                <div class="list-group">
-                    <board-ticket ng-repeat="ticket in sprint.tickets | filter : {status: 'done'} "> </board-ticket>
-                </div>
-            </td>
-        </tr>
-    </tbody>
-</table>
+<div class="container-fluid">
+    <div class="page-header">
+        <h2 class="text-muted">Sprint <a href="#">#11</a> <small>Raring Ringtail</small></h2>
+    </div>
+    <table class="table board">
+        <thead>
+            <tr>
+                <th>Todo <span class="badge">{{sprint.numberOfTicketsWithStatus('todo')}}</span></th>
+                <th>In Progress <span class="badge progress-bar-info">{{sprint.numberOfTicketsWithStatus('inprogress')}}</span></th>
+                <th>Review <span class="badge progress-bar-warning">{{sprint.numberOfTicketsWithStatus('review')}}</span></th>
+                <th>Testing <span class="badge progress-bar-danger">{{sprint.numberOfTicketsWithStatus('testing')}}</span></th>
+                <th>Done <span class="badge progress-bar-success">{{sprint.numberOfTicketsWithStatus('done')}}</span></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <div class="list-group">
+                        <board-ticket ng-repeat="ticket in sprint.tickets | filter : {status: 'todo'} "> </board-ticket>
+                    </div>
+                </td>
+                <td>
+                    <div class="list-group">
+                        <board-ticket ng-repeat="ticket in sprint.tickets | filter : {status: 'inprogress'} "> </board-ticket>
+                    </div>
+                </td>
+                <td>
+                    <div class="list-group">
+                        <board-ticket ng-repeat="ticket in sprint.tickets | filter : {status: 'review'} "> </board-ticket>
+                    </div>
+                </td>
+                <td>
+                    <div class="list-group">
+                        <board-ticket ng-repeat="ticket in sprint.tickets | filter : {status: 'testing'} "> </board-ticket>
+                    </div>
+                </td>
+                <td>
+                    <div class="list-group">
+                        <board-ticket ng-repeat="ticket in sprint.tickets | filter : {status: 'done'} "> </board-ticket>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 <ul class="pager">
     <li><a href="#">&larr; Previous Sprint</a></li>
     <li class="disabled"><a href="#">Next Sprint &rarr;</a></li>

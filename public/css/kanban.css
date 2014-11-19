@@ -169,6 +169,26 @@ table th, table td {
     border-radius: 3px;
 }
 
+.page-header {
+    margin: 20px 0px 15px;
+}
+
+.bottom-margin {
+    margin-bottom: 15px;
+}
+
+.right-margin {
+    margin-right: 15px;
+}
+
+.panel {
+    margin-bottom: 15px;
+}
+
+.panel-heading {
+    padding: 7px 15px;
+}
+
 .caret-right {
     border-top: 4px solid transparent;
     border-bottom: 4px solid transparent;
